@@ -53,6 +53,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
     int count2 = 0;
     int gCost2;
     String winner;
+    String how;
 
     public AStarAIPanel(JFrame frame, int w, int h) {
         SCREEN_WIDTH = w;
@@ -256,62 +257,88 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
     }
 
     public void checkCollisions() {
+        //p2 won
         for (int i = bodyParts1; i > 0; i--) {
             if ((x1[0] == x1[i]) && (y1[0] == y1[i])) {
                 running = false;
                 winner = "P2";
+                how = "Snake 1 touch itself";
+                System.out.println(how);
             }
         }
         if (x1[0] < 0) {
             running = false;
             winner = "P2";
+            how = "Snake 1 out from the board";
         }
         if (x1[0] > SCREEN_WIDTH) {
             running = false;
             winner = "P2";
+            how="Snake 1 out from the board";
+            System.out.println(how);
         }
         if (y1[0] < 0) {
             running = false;
             winner = "P2";
+            how = "Snake 1 out from the board";
+            System.out.println(how);
         }
         if (y1[0] > SCREEN_HEIGHT) {
             running = false;
             winner = "P2";
+            how = "Snake 1 out from the board";
+            System.out.println(how);
         }
 
+        //p1 won
         for (int i = bodyParts2; i > 0; i--) {
             if ((x2[0] == x2[i]) && (y2[0] == y2[i])) {
                 running = false;
                 winner = "P1";
+                how = "Snake 2 touch itself";
+                System.out.println(how);
             }
         }
         if (x2[0] < 0) {
             running = false;
             winner = "P1";
+            how = "Snake 2 out from the board";
+            System.out.println(how);
         }
         if (x2[0] > SCREEN_WIDTH) {
             running = false;
             winner = "P1";
+            how = "Snake 2 out from the board";
+            System.out.println(how);
         }
         if (y2[0] < 0) {
             running = false;
             winner = "P1";
+            how = "Snake 2 out from the board";
+            System.out.println(how);
         }
         if (y2[0] > SCREEN_HEIGHT) {
             running = false;
             winner = "P1";
+            how = "Snake 2 out from the board";
+            System.out.println(how);
         }
-
+        //p2 won
         for (int i = bodyParts2; i > 0; i--) {
             if ((x1[0] == x2[i]) && (y1[0] == y2[i])) {
                 running = false;
                 winner = "P2";
+                how = "Snake 1 touch snake 2";
+                System.out.println(how);
             }
         }
+        //p1 won
         for (int i = bodyParts1; i > 0; i--) {
             if ((x2[0] == x1[i]) && (y2[0] == y1[i])) {
                 running = false;
                 winner = "P1";
+                how = "Snake 2 touch snake 1";
+                System.out.println(how);
             }
         }
 
