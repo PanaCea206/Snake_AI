@@ -13,7 +13,6 @@ public class MyFrame extends JFrame {
     static final int SCREEN_WIDTH = 600;
     static final int SCREEN_HEIGHT = 600;
     private JPanel contentPane;
-    private GamePanel gamePanel;
     private AStarAIPanel aStarAIPanel;
     private GameOverPanel GOPanel;
     private GOAStarPanel GOAS;
@@ -39,12 +38,12 @@ public class MyFrame extends JFrame {
         cardLayout.next(contentPane);
     }
 
-    public void playAgain() {
+    /*public void playAgain() {
         cardLayout.next(contentPane);
         gamePanel.restart();
         contentPane.remove(GOPanel);
         gamePanel.requestFocusInWindow();
-    }
+    }*/
 
     public void aStarAI() {
         aStarAIPanel = new AStarAIPanel(this, SCREEN_WIDTH, SCREEN_HEIGHT);

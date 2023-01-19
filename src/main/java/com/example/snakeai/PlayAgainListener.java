@@ -16,7 +16,7 @@ public class PlayAgainListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent event) {
-        ((MyFrame) frame).playAgain();
+        //((MyFrame) frame).playAgain();
     }
 
 }
