@@ -22,13 +22,17 @@ public class GamePanel extends JPanel implements ActionListener {
     static final int UNIT_SIZE = 25;
     final int GAME_UNITS;
     static final int DELAY = 75;
-    final int x[];
-    final int y[];
-    int bodyParts = 6;
+    final int x1[];
+    final int y1[];
+    final int x2[];
+    final int y2[];
+    int bodyParts1 = 3;
+    int bodyParts2 = 3;
     int applesEaten;
     int appleX;
     int appleY;
-    char direction = 'R';
+    char direction1 = 'R';
+    char direction2 = 'R';
     boolean running = false;
     Timer timer;
     Random random;
@@ -39,8 +43,10 @@ public class GamePanel extends JPanel implements ActionListener {
         SCREEN_WIDTH = w;
         SCREEN_HEIGHT = h;
         GAME_UNITS = (SCREEN_WIDTH*SCREEN_HEIGHT)/UNIT_SIZE;
-        this.x = new int[GAME_UNITS];
-        this.y = new int[GAME_UNITS];
+        this.x1 = new int[GAME_UNITS];
+        this.y1 = new int[GAME_UNITS];
+        this.x2 = new int[GAME_UNITS];
+        this.y2 = new int[GAME_UNITS];
         this.frame = frame;
         random = new Random();
         setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -58,12 +64,18 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     public void restart() {
-        bodyParts = 6;
-        direction = 'R';
+        bodyParts1 = 3;
+        bodyParts2 = 3;
+        direction1 = 'R';
+        direction2 = 'R';
         applesEaten = 0;
-        for (int i = bodyParts; i >= 0; i--) {
-            x[i] = 0;
-            y[i] = 0;
+        for (int i = bodyParts1; i >= 0; i--) {
+            x1[i] = 0;
+            y1[i] = 0;
+        }
+        for (int i = bodyParts2; i >= 0; i--) {
+            x2[i] = 0;
+            y2[i] = 0;
         }
         startGame();
     }
@@ -78,17 +90,32 @@ public class GamePanel extends JPanel implements ActionListener {
             g.setColor(Color.WHITE);
             g.fillOval(appleX, appleY, UNIT_SIZE, UNIT_SIZE);
             timer.setDelay(DELAY);
-            for (int i = 0; i < bodyParts; i++) {
+            //Snake1
+            for (int i = 0; i < bodyParts1; i++) {
                 if (applesEaten % 10 == 0 && applesEaten != 0) {
                     timer.setDelay(45);
                     g.setColor(new Color(random.nextInt(255), random.nextInt(255), random.nextInt(255)));
-                    g.fillRect(x[i], y[i], UNIT_SIZE, UNIT_SIZE);
+                    g.fillRect(x1[i], y1[i], UNIT_SIZE, UNIT_SIZE);
+                } else if (i == 0) {
+                    g.setColor(Color.BLUE);
+                    g.fillRect(x1[i], y1[i], UNIT_SIZE, UNIT_SIZE);
+                } else {
+                    g.setColor(new Color(0, 99, 180));
+                    g.fillRect(x1[i], y1[i], UNIT_SIZE, UNIT_SIZE);
+                }
+            }
+            //Snake2
+            for (int i = 0; i < bodyParts2; i++) {
+                if (applesEaten % 10 == 0 && applesEaten != 0) {
+                    timer.setDelay(45);
+                    g.setColor(new Color(random.nextInt(255), random.nextInt(255), random.nextInt(255)));
+                    g.fillRect(x2[i], y2[i], UNIT_SIZE, UNIT_SIZE);
                 } else if (i == 0) {
                     g.setColor(Color.GREEN);
-                    g.fillRect(x[i], y[i], UNIT_SIZE, UNIT_SIZE);
+                    g.fillRect(x2[i], y2[i], UNIT_SIZE, UNIT_SIZE);
                 } else {
                     g.setColor(new Color(45, 180, 0));
-                    g.fillRect(x[i], y[i], UNIT_SIZE, UNIT_SIZE);
+                    g.fillRect(x2[i], y2[i], UNIT_SIZE, UNIT_SIZE);
                 }
             }
             g.setColor(Color.RED);
@@ -106,30 +133,53 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     public void move() {
-        for(int i = bodyParts; i > 0; i--) {
-            x[i] = x[i-1];
-            y[i] = y[i-1];
+        for(int i = bodyParts1; i > 0; i--) {
+            x1[i] = x1[i-1];
+            y1[i] = y1[i-1];
+        }
+        for(int i = bodyParts2; i > 0; i--) {
+            x2[i] = x2[i-1];
+            y2[i] = y2[i-1];
         }
 
-        switch(direction) {
+        switch(direction1) {
             case 'U':
-                y[0] = y[0] - UNIT_SIZE;
+                y1[0] = y1[0] - UNIT_SIZE;
                 break;
             case 'D':
-                y[0] = y[0] + UNIT_SIZE;
+                y1[0] = y1[0] + UNIT_SIZE;
                 break;
             case 'L':
-                x[0] = x[0] - UNIT_SIZE;
+                x1[0] = x1[0] - UNIT_SIZE;
                 break;
             case 'R':
-                x[0] = x[0] + UNIT_SIZE;
+                x1[0] = x1[0] + UNIT_SIZE;
+                break;
+        }
+        switch(direction2) {
+            case 'U':
+                y2[0] = y2[0] - UNIT_SIZE;
+                break;
+            case 'D':
+                y2[0] = y2[0] + UNIT_SIZE;
+                break;
+            case 'L':
+                x2[0] = x2[0] - UNIT_SIZE;
+                break;
+            case 'R':
+                x2[0] = x2[0] + UNIT_SIZE;
                 break;
         }
     }
 
     public void checkApple() {
-        if((x[0] == appleX) && (y[0] == appleY)) {
-            bodyParts++;
+        if((x1[0] == appleX) && (y1[0] == appleY)) {
+            bodyParts1++;
+            applesEaten++;
+            newApple();
+        }
+        if((x2[0] == appleX) && (y2[0] == appleY)) {
+            bodyParts2++;
             applesEaten++;
             newApple();
         }
@@ -138,29 +188,53 @@ public class GamePanel extends JPanel implements ActionListener {
     public void checkCollisions() {
 
         // Checks if head collides with body
-        for(int i = bodyParts; i>0; i--) {
-            if((x[0] == x[i]) && (y[0] == y[i])) {
+        for(int i = bodyParts1; i>0; i--) {
+            if((x1[0] == x1[i]) && (y1[0] == y1[i])) {
+                running = false;
+            }
+        }
+        for(int i = bodyParts2; i>0; i--) {
+            if((x2[0] == x2[i]) && (y2[0] == y2[i])) {
                 running = false;
             }
         }
 
-        // Check if head touches left border
-        if(x[0]<0) {
+        // Check if 1head touches left border
+        if(x1[0]<0) {
             running = false;
         }
 
-        // Check if head touches right border
-        if(x[0] > SCREEN_WIDTH) {
+        // Check if 1head touches right border
+        if(x1[0] > SCREEN_WIDTH) {
             running = false;
         }
 
-        // Check if head touches top border
-        if (y[0] < 0) {
+        // Check if 1head touches top border
+        if (y1[0] < 0) {
             running = false;
         }
 
-        // Check if head touches top border
-        if (y[0] > SCREEN_HEIGHT) {
+        // Check if 1head touches top border
+        if (y1[0] > SCREEN_HEIGHT) {
+            running = false;
+        }
+        // Check if 2head touches left border
+        if(x2[0]<0) {
+            running = false;
+        }
+
+        // Check if 2head touches right border
+        if(x2[0] > SCREEN_WIDTH) {
+            running = false;
+        }
+
+        // Check if 2head touches top border
+        if (y2[0] < 0) {
+            running = false;
+        }
+
+        // Check if 2head touches top border
+        if (y2[0] > SCREEN_HEIGHT) {
             running = false;
         }
 
@@ -188,23 +262,45 @@ public class GamePanel extends JPanel implements ActionListener {
         public void keyPressed(KeyEvent e) {
             switch(e.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
-                    if(direction != 'R') {
-                        direction = 'L';
+                    if(direction1 != 'R') {
+                        direction1 = 'L';
                     }
                     break;
                 case KeyEvent.VK_RIGHT:
-                    if(direction != 'L') {
-                        direction = 'R';
+                    if(direction1 != 'L') {
+                        direction1 = 'R';
                     }
                     break;
                 case KeyEvent.VK_UP:
-                    if(direction != 'D') {
-                        direction = 'U';
+                    if(direction1 != 'D') {
+                        direction1 = 'U';
                     }
                     break;
                 case KeyEvent.VK_DOWN:
-                    if(direction != 'U') {
-                        direction = 'D';
+                    if(direction1 != 'U') {
+                        direction1 = 'D';
+                    }
+                    break;
+            }
+            switch(e.getKeyCode()) {
+                case KeyEvent.VK_LEFT:
+                    if(direction2 != 'R') {
+                        direction2 = 'L';
+                    }
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    if(direction2 != 'L') {
+                        direction2 = 'R';
+                    }
+                    break;
+                case KeyEvent.VK_UP:
+                    if(direction2 != 'D') {
+                        direction2 = 'U';
+                    }
+                    break;
+                case KeyEvent.VK_DOWN:
+                    if(direction2 != 'U') {
+                        direction2 = 'D';
                     }
                     break;
             }
