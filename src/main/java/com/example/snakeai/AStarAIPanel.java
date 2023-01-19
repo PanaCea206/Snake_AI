@@ -52,6 +52,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
     int gCost1;
     int count2 = 0;
     int gCost2;
+    String winner;
 
     public AStarAIPanel(JFrame frame, int w, int h) {
         SCREEN_WIDTH = w;
@@ -331,9 +332,9 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
     }
 
     public void gameOver(Graphics g) {
-        ((MyFrame) frame).gameOverAStar(new GOAStarPanel(applesEaten1, SCREEN_WIDTH, SCREEN_HEIGHT, g, frame));
-        ((MyFrame) frame).gameOverAStar(new GOAStarPanel(applesEaten2, SCREEN_WIDTH, SCREEN_HEIGHT, g, frame));
-    }
+            ((MyFrame) frame).gameOverAStar(new GameOverPanel(applesEaten1, applesEaten2, SCREEN_WIDTH, SCREEN_HEIGHT,frame, winner));
+        }
+
 
     public void actionPerformed(ActionEvent event) {
         if(running) {

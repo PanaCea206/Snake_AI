@@ -1,31 +1,35 @@
 package com.example.snakeai;
 
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+@SuppressWarnings("serial")
 public class GameOverPanel extends JPanel {
-    int applesEaten;
+
+    int applesEaten1;
+    int applesEaten2;
     int width;
     int height;
-    Graphics g;
     JFrame frame;
+    String winner;
 
+    public GameOverPanel(int applesEaten1, int applesEaten2, int width, int height, JFrame frame, String winner) {
 
-    public GameOverPanel(int applesEaten, int width, int height, Graphics g, JFrame frame) {
-        
-
-        this.applesEaten = applesEaten;
+        this.applesEaten1 = applesEaten1;
+        this.applesEaten2 = applesEaten2;
         this.width = width;
         this.height = height;
-        this.g = g;
         this.frame = frame;
+        this.winner = winner;
 
         setPreferredSize(new Dimension(width, height));
         setBackground(Color.BLACK);
@@ -36,7 +40,7 @@ public class GameOverPanel extends JPanel {
         againB.setBounds((width / 2) - 100, (height - (height / 4)) - 30, 200, 60);
         againB.setBackground(Color.GREEN);
         againB.setBorder(BorderFactory.createBevelBorder(0));
-        againB.addActionListener(new PlayAgainListener(frame));
+        againB.addActionListener(new AStarListener(frame));
         add(againB);
     }
 
@@ -49,11 +53,13 @@ public class GameOverPanel extends JPanel {
         g.setColor(Color.RED);
         g.setFont(new Font("Ink Free", Font.BOLD, 40));
         FontMetrics metrics1 = getFontMetrics(g.getFont());
-        g.drawString("Score: " + applesEaten, (width - metrics1.stringWidth("Score: " + applesEaten))/2, g.getFont().getSize());
+        g.drawString("P1 Score: " + applesEaten1, (width - metrics1.stringWidth("Score: " + applesEaten1))/2, g.getFont().getSize());
+        g.drawString("P2 Score: " + applesEaten2, (width - metrics1.stringWidth("Score: " + applesEaten2))/2, g.getFont().getSize() + 40);
 
-        g.setColor(Color.RED);
+        g.setColor(Color.GREEN);
         g.setFont(new Font("Ink Free", Font.BOLD, 75));
         FontMetrics metrics2 = getFontMetrics(g.getFont());
-        g.drawString("Game Over", (width - metrics2.stringWidth("Game Over"))/2, height / 2);
+        g.drawString("Winner: " + winner, (width - metrics2.stringWidth("Winner: " + winner))/2, height / 2);
     }
+
 }
