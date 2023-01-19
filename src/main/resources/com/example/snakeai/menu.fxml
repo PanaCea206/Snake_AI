@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: lightgreen; -fx-border-color: darkgreen;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.snakeai.SceneController">
+    <children>
+        <Button fx:id="SButton" alignment="CENTER" layoutX="231.0" layoutY="265.0" mnemonicParsing="false" onAction="#gamePanel" prefHeight="50.0" prefWidth="100.0" text="Start" textFill="#406636" AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="240.0">
+         <font>
+            <Font name="Ebrima" size="26.0" />
+         </font></Button>
+        <Button fx:id="EButton" alignment="CENTER" layoutX="240.0" layoutY="321.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="50.0" prefWidth="100.0" text="Exit" textFill="#406636" AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="240.0">
+         <font>
+            <Font size="26.0" />
+         </font></Button>
+        <Label fx:id="Label" alignment="CENTER" layoutX="159.0" layoutY="145.0" prefHeight="88.0" prefWidth="282.0" text="Snake AI" textFill="#406636">
+            <font>
+                <Font name="Ebrima" size="72.0" />
+            </font>
+        </Label>
+    </children>
+</AnchorPane>
