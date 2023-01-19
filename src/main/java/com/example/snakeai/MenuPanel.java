@@ -27,7 +27,7 @@ public class MenuPanel extends JPanel {
         setLayout(null);
 
 
-        JButton Astar = new JButton("A* AI");
+        JButton Astar = new JButton("START");
         Astar.setLayout(null);
         Astar.setBounds((width / 2) - 100, (height / 4) + 325 - 30, 200, 60);
         Astar.setBackground(Color.GREEN);

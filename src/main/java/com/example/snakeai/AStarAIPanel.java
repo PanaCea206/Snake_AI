@@ -341,7 +341,19 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                 System.out.println(how);
             }
         }
-
+        if(x1[0]==x2[0] && y1[0]==y2[0]){
+            running = false;
+            if(bodyParts1>bodyParts2){
+                winner = "P1";
+                how = "Snake 1 is longer";
+                System.out.println(how);
+            }
+            if(bodyParts2>bodyParts1){
+                winner = "P2";
+                how = "Snake 2 is longer";
+                System.out.println(how);
+            }
+        }
         if (!running) {
             timer.stop();
         }
