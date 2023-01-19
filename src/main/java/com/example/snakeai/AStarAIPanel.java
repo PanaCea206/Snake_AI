@@ -256,80 +256,70 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
     }
 
     public void checkCollisions() {
-        //snake1 lost
         for (int i = bodyParts1; i > 0; i--) {
             if ((x1[0] == x1[i]) && (y1[0] == y1[i])) {
                 running = false;
-                System.out.println("Snake2 won");
+                winner = "P2";
             }
         }
-        if (x1[0] < 0){
+        if (x1[0] < 0) {
             running = false;
-            System.out.println("Snake2 won");
-    }
-        if(x1[0] >= SCREEN_WIDTH) {
+            winner = "P2";
+        }
+        if (x1[0] > SCREEN_WIDTH) {
             running = false;
-            System.out.println("Snake2 won");
+            winner = "P2";
         }
         if (y1[0] < 0) {
             running = false;
-            System.out.println("Snake2 won");
+            winner = "P2";
         }
-        if (y1[0] >= SCREEN_HEIGHT) {
+        if (y1[0] > SCREEN_HEIGHT) {
             running = false;
-            System.out.println("Snake2 won");
-        }
-        for(int i = bodyParts2; i>0; i--) {
-            if ((x1[0] == x2[i]) && (y1[0] == y2[i])) {
-                running = false;
-                System.out.println("Snake2 won");
-            }
+            winner = "P2";
         }
 
-        //snake2 lost
-        for(int i = bodyParts2; i>0; i--) {
+        for (int i = bodyParts2; i > 0; i--) {
             if ((x2[0] == x2[i]) && (y2[0] == y2[i])) {
                 running = false;
-                System.out.println("Snake1 won");
+                winner = "P1";
             }
         }
-        if(x2[0] < 0) {
+        if (x2[0] < 0) {
             running = false;
-            System.out.println("Snake1 won");
+            winner = "P1";
         }
-        if(x2[0] >= SCREEN_WIDTH) {
+        if (x2[0] > SCREEN_WIDTH) {
             running = false;
-            System.out.println("Snake1 won");
+            winner = "P1";
         }
         if (y2[0] < 0) {
             running = false;
-            System.out.println("Snake1 won");
+            winner = "P1";
         }
-        if (y2[0] >= SCREEN_HEIGHT) {
+        if (y2[0] > SCREEN_HEIGHT) {
             running = false;
-            System.out.println("Snake1 won");
+            winner = "P1";
         }
-        for(int i = bodyParts1; i>0; i--) {
+
+        for (int i = bodyParts2; i > 0; i--) {
+            if ((x1[0] == x2[i]) && (y1[0] == y2[i])) {
+                running = false;
+                winner = "P2";
+            }
+        }
+        for (int i = bodyParts1; i > 0; i--) {
             if ((x2[0] == x1[i]) && (y2[0] == y1[i])) {
                 running = false;
-                System.out.println("Snake1 won");
+                winner = "P1";
             }
         }
 
-
-        if((x1[0] == x2[0]) && (x1[0] == x2[0])){
-            running = false;
-            if(bodyParts1>bodyParts2)
-                System.out.println("Snake1 won");
-            else if(bodyParts2>bodyParts1)
-                System.out.println("Snake2 won");
-            else
-                System.out.println("draw");
-        }
         if (!running) {
             timer.stop();
         }
     }
+
 
     public void gameOver(Graphics g) {
             ((MyFrame) frame).gameOverAStar(new GameOverPanel(applesEaten1, applesEaten2, SCREEN_WIDTH, SCREEN_HEIGHT,frame, winner));
