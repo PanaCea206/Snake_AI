@@ -111,18 +111,18 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
 
     public void draw(Graphics g) {
         if (running) {
-            g.setColor(Color.WHITE);
-            g.fillOval(appleX, appleY, UNIT_SIZE, UNIT_SIZE);
+            g.setColor(Color.RED);
+            g.fillOval(appleX, appleY, UNIT_SIZE, UNIT_SIZE);   //coordinate of x/y,  width/heigh of the oval
             timer.setDelay(DELAY);
             for (int i = 0; i < bodyParts1; i++) {
                 if (applesEaten1 % 10 == 0 && applesEaten1 != 0) {
                     timer.setDelay(45);
                     g.setColor(new Color(random1.nextInt(255), random1.nextInt(255), random1.nextInt(255)));
                     g.fillRect(x1[i], y1[i], UNIT_SIZE, UNIT_SIZE);
-                } else if (i == 0) {
+                } else if (i == 0) {    //set head
                     g.setColor(Color.BLUE);
-                    g.fillRect(x1[i], y1[i], UNIT_SIZE, UNIT_SIZE);
-                } else {
+                    g.fillRect(x1[i], y1[i], UNIT_SIZE, UNIT_SIZE); //coordinate of x/y,  width/heigh of the rectangle
+                } else {    //set body
                     g.setColor(new Color(0, 99, 180));
                     g.fillRect(x1[i], y1[i], UNIT_SIZE, UNIT_SIZE);
                 }

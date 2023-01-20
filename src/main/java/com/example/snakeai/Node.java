@@ -5,9 +5,9 @@ public class Node implements Comparable<Node> {
     int xAxis;
     int yAxis;
     //int width;
-    int gCost = 0;
-    int hCost;
-    int fCost;
+    int gCost = 0;  //from start
+    int hCost;  //to final
+    int fCost;  //sum
     Node parent;
     boolean walkable;
     char direction = 'x';
@@ -59,7 +59,6 @@ public class Node implements Comparable<Node> {
     private void calcFCost() {
         fCost = gCost + hCost;
     }
-
     public int getFCost() {
         return fCost;
     }
@@ -77,7 +76,6 @@ public class Node implements Comparable<Node> {
     public int getxAxis() {
         return xAxis;
     }
-
     public int getyAxis() {
         return yAxis;
     }
