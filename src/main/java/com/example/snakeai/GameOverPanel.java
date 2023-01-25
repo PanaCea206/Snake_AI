@@ -33,11 +33,11 @@ public class GameOverPanel extends JPanel {
         setBackground(Color.BLACK);
         setLayout(null);
 
-        JButton againB = new JButton("Play Again?");
-        againB.setLayout(null);
-        againB.setBounds((width / 2) - 100, (height - (height / 4)) - 30, 200, 60);
-        againB.addActionListener(new AStarListener(frame));
-        add(againB);
+        JButton again = new JButton("Again");
+        again.setLayout(null);
+        again.setBounds((width / 2) - 100, (height - (height / 4)) - 30, 200, 60);
+        again.addActionListener(new AStarListener(frame));
+        add(again);
     }
 
     public void paintComponent(Graphics g) {
@@ -47,10 +47,10 @@ public class GameOverPanel extends JPanel {
 
     public void draw(Graphics g) {
         g.setColor(Color.RED);
-        g.setFont(new Font("Ink Free", Font.BOLD, 40));
+        g.setFont(new Font("ARIAL", Font.BOLD, 40));
         FontMetrics metrics1 = getFontMetrics(g.getFont());
-        g.drawString("P1 Score: " + applesEaten1, (width - metrics1.stringWidth("Score: " + applesEaten1))/2, g.getFont().getSize());
-        g.drawString("P2 Score: " + applesEaten2, (width - metrics1.stringWidth("Score: " + applesEaten2))/2, g.getFont().getSize() + 40);
+        g.drawString("SNAKE1: " + applesEaten1 + "    SNAKE2: " + applesEaten2, (width - metrics1.stringWidth("SNAKE1: " + applesEaten1 + "    P2 Score: " + applesEaten2))/2, g.getFont().getSize());
+
 
         g.setColor(Color.GREEN);
         g.setFont(new Font("Ink Free", Font.BOLD, 75));

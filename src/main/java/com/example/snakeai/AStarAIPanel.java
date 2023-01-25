@@ -19,7 +19,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
     final int SCREEN_HEIGHT;
     static final int UNIT_SIZE = 25;
     final int GAME_UNITS;
-    static final int DELAY = 45;
+    static final int DELAY = 70;
     final int x1[];
     final int y1[];
     final int x2[];
