@@ -7,12 +7,10 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-@SuppressWarnings("serial")
 public class GameOverPanel extends JPanel {
 
     int applesEaten1;
@@ -38,8 +36,6 @@ public class GameOverPanel extends JPanel {
         JButton againB = new JButton("Play Again?");
         againB.setLayout(null);
         againB.setBounds((width / 2) - 100, (height - (height / 4)) - 30, 200, 60);
-        againB.setBackground(Color.GREEN);
-        againB.setBorder(BorderFactory.createBevelBorder(0));
         againB.addActionListener(new AStarListener(frame));
         add(againB);
     }
