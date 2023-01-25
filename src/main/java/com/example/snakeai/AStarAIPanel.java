@@ -143,8 +143,8 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
             g.setColor(Color.RED);
             g.setFont(new Font("Arial", Font.BOLD, 40));
             FontMetrics metrics = getFontMetrics(g.getFont());
-            g.drawString("P1: " + applesEaten1, (SCREEN_WIDTH - metrics.stringWidth("P1: " + applesEaten1))/4, g.getFont().getSize());
-            g.drawString("P2: " + applesEaten2, (SCREEN_WIDTH - metrics.stringWidth("P2: " + applesEaten2))*3/4, g.getFont().getSize());
+            g.drawString("S1: " + applesEaten1, (SCREEN_WIDTH - metrics.stringWidth("S1: " + applesEaten1))/4, g.getFont().getSize());
+            g.drawString("S2: " + applesEaten2, (SCREEN_WIDTH - metrics.stringWidth("S2: " + applesEaten2))*3/4, g.getFont().getSize());
         } else {
             gameOver(g);
         }
