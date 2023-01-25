@@ -23,17 +23,17 @@ public class MenuPanel extends JPanel {
         this.frame = frame;
 
         setPreferredSize(new Dimension(width, height));
-        setBackground(Color.BLACK);
+        setBackground(new Color(0, 180, 117));
         setLayout(null);
 
 
-        JButton Astar = new JButton("START");
-        Astar.setLayout(null);
-        Astar.setBounds((width / 2) - 100, (height / 4) + 325 - 30, 200, 60);
-        Astar.setBackground(Color.GREEN);
-        Astar.setBorder(BorderFactory.createBevelBorder(0));
-        Astar.addActionListener(new AStarListener(frame));
-        add(Astar);
+        JButton Start = new JButton("START");
+        Start.setLayout(null);
+        Start.setBounds((width / 2) - 100, (height / 4) + 325 - 30, 200, 60);
+        Start.setBackground(Color.GRAY);
+        Start.setBorder(BorderFactory.createBevelBorder(0));
+        Start.addActionListener(new AStarListener(frame));
+        add(Start);
     }
 
     public void paintComponent(Graphics g) {
@@ -42,9 +42,9 @@ public class MenuPanel extends JPanel {
     }
 
     public void draw(Graphics g) {
-        g.setColor(Color.RED);
-        g.setFont(new Font("Ink Free", Font.BOLD, 75));
+        g.setColor(Color.BLACK);
+        g.setFont(new Font("Arial", Font.BOLD, 75));
         FontMetrics metrics = getFontMetrics(g.getFont());
-        g.drawString("SNAKE", (width - metrics.stringWidth("SNAKE"))/2, height / 4);
+        g.drawString("SNAKE AI", (width - metrics.stringWidth("SNAKE AI"))/2, height / 4);
     }
 }

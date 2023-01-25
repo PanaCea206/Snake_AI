@@ -112,7 +112,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
     public void draw(Graphics g) {
         if (running) {
             g.setColor(Color.RED);
-            g.fillOval(appleX, appleY, UNIT_SIZE, UNIT_SIZE);   //coordinate of x/y,  width/heigh of the oval
+            g.fillRect(appleX, appleY, UNIT_SIZE, UNIT_SIZE);   //coordinate of x/y,  width/heigh of the oval
             timer.setDelay(DELAY);
             for (int i = 0; i < bodyParts1; i++) {
                 if (applesEaten1 % 10 == 0 && applesEaten1 != 0) {
@@ -141,10 +141,10 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                 }
             }
             g.setColor(Color.RED);
-            g.setFont(new Font("Ink Free", Font.BOLD, 40));
+            g.setFont(new Font("Arial", Font.BOLD, 40));
             FontMetrics metrics = getFontMetrics(g.getFont());
-            g.drawString("Score: " + applesEaten1, (SCREEN_WIDTH - metrics.stringWidth("Score: " + applesEaten1))/4, g.getFont().getSize());
-            g.drawString("Score: " + applesEaten2, (SCREEN_WIDTH - metrics.stringWidth("Score: " + applesEaten2))*3/4, g.getFont().getSize());
+            g.drawString("P1: " + applesEaten1, (SCREEN_WIDTH - metrics.stringWidth("P1: " + applesEaten1))/4, g.getFont().getSize());
+            g.drawString("P2: " + applesEaten2, (SCREEN_WIDTH - metrics.stringWidth("P2: " + applesEaten2))*3/4, g.getFont().getSize());
         } else {
             gameOver(g);
         }
