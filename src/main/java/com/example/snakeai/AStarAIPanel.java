@@ -52,7 +52,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
     int gCost1;
     int count2 = 0;
     int gCost2;
-    String winner;
+    String winner = "No Snake";
     String how;
 
     public AStarAIPanel(JFrame frame, int w, int h) {
@@ -380,13 +380,19 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
         repaint();
     }
 
-    private boolean isBlocked1(char d, int x, int y) {
+    private boolean isBlocked(char d, int x, int y) {
         if (d == 'R' ) {
+            //border
             if (x >= SCREEN_WIDTH) {
                 return true;
             }
             for (int i = bodyParts1; i > 0; i--) {
                 if ((x == this.x1[i]) && (y == this.y1[i])) {
+                    return true;
+                }
+            }
+            for (int i = bodyParts2; i > 0; i--) {
+                if ((x == this.x2[i]) && (y == this.y2[i])) {
                     return true;
                 }
             }
@@ -399,12 +405,22 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                     return true;
                 }
             }
+            for (int i = bodyParts2; i > 0; i--) {
+                if ((x == this.x2[i]) && (y == this.y2[i])) {
+                    return true;
+                }
+            }
         } else if (d == 'D') {
             if (y >= SCREEN_WIDTH) {
                 return true;
             }
             for (int i = bodyParts1; i > 0; i--) {
                 if ((x == this.x1[i]) && (y == this.y1[i])) {
+                    return true;
+                }
+            }
+            for (int i = bodyParts2; i > 0; i--) {
+                if ((x == this.x2[i]) && (y == this.y2[i])) {
                     return true;
                 }
             }
@@ -417,41 +433,6 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                     return true;
                 }
             }
-        }
-        return false;
-    }
-    private boolean isBlocked2(char d, int x, int y) {
-        if (d == 'R' ) {
-            if (x >= SCREEN_WIDTH) {
-                return true;
-            }
-            for (int i = bodyParts2; i > 0; i--) {
-                if ((x == this.x2[i]) && (y == this.y2[i])) {
-                    return true;
-                }
-            }
-        } else if (d == 'L') {
-            if (x < 0) {
-                return true;
-            }
-            for (int i = bodyParts2; i > 0; i--) {
-                if ((x == this.x2[i]) && (y == this.y2[i])) {
-                    return true;
-                }
-            }
-        } else if (d == 'D') {
-            if (y >= SCREEN_WIDTH) {
-                return true;
-            }
-            for (int i = bodyParts2; i > 0; i--) {
-                if ((x == this.x2[i]) && (y == this.y2[i])) {
-                    return true;
-                }
-            }
-        } else {
-            if (y < 0) {
-                return true;
-            }
             for (int i = bodyParts2; i > 0; i--) {
                 if ((x == this.x2[i]) && (y == this.y2[i])) {
                     return true;
@@ -460,7 +441,6 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
         }
         return false;
     }
-
 
     private List<Node> aStar1() {
 
@@ -517,7 +497,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                 if (i == 0) {
                     if (current.getDirection() == 'R') { // Continue Right
                         // CHECK IF BLOCKED
-                        if (!isBlocked1(current.getDirection(), current.getxAxis() + UNIT_SIZE, current.getyAxis())) {
+                        if (!isBlocked(current.getDirection(), current.getxAxis() + UNIT_SIZE, current.getyAxis())) {
                             n = new Node(current.getxAxis() + UNIT_SIZE, current.getyAxis(), gCost1, findHCost1(current.getxAxis(), current.getyAxis()));
                             if (open.contains(n) || closed.contains(n)) {
                                 exists = true;
@@ -526,7 +506,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                             continue;
                         }
                     } else if (current.getDirection() == 'L') { // Continue Left
-                        if (!isBlocked1(current.getDirection(), current.getxAxis() - UNIT_SIZE, current.getyAxis())) {
+                        if (!isBlocked(current.getDirection(), current.getxAxis() - UNIT_SIZE, current.getyAxis())) {
                             n = new Node(current.getxAxis() - UNIT_SIZE, current.getyAxis(), gCost1, findHCost1(current.getxAxis(), current.getyAxis()));
                             if (open.contains(n) || closed.contains(n)) {
                                 exists = true;
@@ -535,7 +515,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                             continue;
                         }
                     } else if (current.getDirection() == 'D') { // Continue Down
-                        if (!isBlocked1(current.getDirection(), current.getxAxis(), current.getyAxis() + UNIT_SIZE)) {
+                        if (!isBlocked(current.getDirection(), current.getxAxis(), current.getyAxis() + UNIT_SIZE)) {
                             n = new Node(current.getxAxis(), current.getyAxis() + UNIT_SIZE, gCost1, findHCost1(current.getxAxis(), current.getyAxis()));
                             if (open.contains(n) || closed.contains(n)) {
                                 exists = true;
@@ -544,7 +524,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                             continue;
                         }
                     } else { // Continue Up
-                        if(!isBlocked1(current.getDirection(), current.getxAxis(), current.getyAxis() - UNIT_SIZE)) {
+                        if(!isBlocked(current.getDirection(), current.getxAxis(), current.getyAxis() - UNIT_SIZE)) {
                             n = new Node(current.getxAxis(), current.getyAxis() - UNIT_SIZE, gCost1, findHCost1(current.getxAxis(), current.getyAxis()));
                             if (open.contains(n) || closed.contains(n)) {
                                 exists = true;
@@ -555,7 +535,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                     }
                 } else if (i == 1) {
                     if (current.getDirection() == 'R') { // Turn Down
-                        if(!isBlocked1('D', current.getxAxis(), current.getyAxis() + UNIT_SIZE)) {
+                        if(!isBlocked('D', current.getxAxis(), current.getyAxis() + UNIT_SIZE)) {
                             n = new Node(current.getxAxis(), current.getyAxis() + UNIT_SIZE, gCost1, findHCost1(current.getxAxis(), current.getyAxis()));
                             if (open.contains(n) || closed.contains(n)) {
                                 exists = true;
@@ -564,7 +544,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                             continue;
                         }
                     } else if (current.getDirection() == 'L') { // Turn Up
-                        if(!isBlocked1('U', current.getxAxis(), current.getyAxis() - UNIT_SIZE)) {
+                        if(!isBlocked('U', current.getxAxis(), current.getyAxis() - UNIT_SIZE)) {
                             n = new Node(current.getxAxis(), current.getyAxis() - UNIT_SIZE, gCost1, findHCost1(current.getxAxis(), current.getyAxis()));
                             if (open.contains(n) || closed.contains(n)) {
                                 exists = true;
@@ -573,7 +553,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                             continue;
                         }
                     } else if (current.getDirection() == 'D') { // Turn Left
-                        if(!isBlocked1('L', current.getxAxis() - UNIT_SIZE, current.getyAxis())) {
+                        if(!isBlocked('L', current.getxAxis() - UNIT_SIZE, current.getyAxis())) {
                             n = new Node(current.getxAxis() - UNIT_SIZE, current.getyAxis(), gCost1, findHCost1(current.getxAxis(), current.getyAxis()));
                             if (open.contains(n) || closed.contains(n)) {
                                 exists = true;
@@ -582,7 +562,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                             continue;
                         }
                     } else { // Turn Right
-                        if(!isBlocked1('R', current.getxAxis() + UNIT_SIZE, current.getyAxis())) {
+                        if(!isBlocked('R', current.getxAxis() + UNIT_SIZE, current.getyAxis())) {
                             n = new Node(current.getxAxis() + UNIT_SIZE, current.getyAxis(), gCost1, findHCost1(current.getxAxis(), current.getyAxis()));
                             if (open.contains(n) || closed.contains(n)) {
                                 exists = true;
@@ -593,7 +573,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                     }
                 } else {
                     if (current.getDirection() == 'R') { // Turn Up
-                        if(!isBlocked1('U', current.getxAxis(), current.getyAxis() - UNIT_SIZE)) {
+                        if(!isBlocked('U', current.getxAxis(), current.getyAxis() - UNIT_SIZE)) {
                             n = new Node(current.getxAxis(), current.getyAxis() - UNIT_SIZE, gCost1, findHCost1(current.getxAxis(), current.getyAxis()));
                             if (open.contains(n) || closed.contains(n)) {
                                 exists = true;
@@ -602,7 +582,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                             continue;
                         }
                     } else if (current.getDirection() == 'L') { // Turn Down
-                        if(!isBlocked1('D', current.getxAxis(), current.getyAxis() + UNIT_SIZE)) {
+                        if(!isBlocked('D', current.getxAxis(), current.getyAxis() + UNIT_SIZE)) {
                             n = new Node(current.getxAxis(), current.getyAxis() + UNIT_SIZE, gCost1, findHCost1(current.getxAxis(), current.getyAxis()));
                             if (open.contains(n) || closed.contains(n)) {
                                 exists = true;
@@ -611,7 +591,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                             continue;
                         }
                     } else if (current.getDirection() == 'D') { // Turn Right
-                        if(!isBlocked1('R', current.getxAxis() + UNIT_SIZE, current.getyAxis())) {
+                        if(!isBlocked('R', current.getxAxis() + UNIT_SIZE, current.getyAxis())) {
                             n = new Node(current.getxAxis() + UNIT_SIZE, current.getyAxis(), gCost1, findHCost1(current.getxAxis(), current.getyAxis()));
                             if (open.contains(n) || closed.contains(n)) {
                                 exists = true;
@@ -620,7 +600,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                             continue;
                         }
                     } else { // Turn Left
-                        if(!isBlocked1('L', current.getxAxis() - UNIT_SIZE, current.getyAxis())) {
+                        if(!isBlocked('L', current.getxAxis() - UNIT_SIZE, current.getyAxis())) {
                             n = new Node(current.getxAxis() - UNIT_SIZE, current.getyAxis(), gCost1, findHCost1(current.getxAxis(), current.getyAxis()));
                             if (open.contains(n) || closed.contains(n)) {
                                 exists = true;
@@ -701,7 +681,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                 if (i == 0) {
                     if (current.getDirection() == 'R') { // Continue Right
                         // CHECK IF BLOCKED
-                        if (!isBlocked2(current.getDirection(), current.getxAxis() + UNIT_SIZE, current.getyAxis())) {
+                        if (!isBlocked(current.getDirection(), current.getxAxis() + UNIT_SIZE, current.getyAxis())) {
                             n = new Node(current.getxAxis() + UNIT_SIZE, current.getyAxis(), gCost2, findHCost2(current.getxAxis(), current.getyAxis()));
                             if (open.contains(n) || closed.contains(n)) {
                                 exists = true;
@@ -710,7 +690,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                             continue;
                         }
                     } else if (current.getDirection() == 'L') { // Continue Left
-                        if (!isBlocked2(current.getDirection(), current.getxAxis() - UNIT_SIZE, current.getyAxis())) {
+                        if (!isBlocked(current.getDirection(), current.getxAxis() - UNIT_SIZE, current.getyAxis())) {
                             n = new Node(current.getxAxis() - UNIT_SIZE, current.getyAxis(), gCost2, findHCost2(current.getxAxis(), current.getyAxis()));
                             if (open.contains(n) || closed.contains(n)) {
                                 exists = true;
@@ -719,7 +699,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                             continue;
                         }
                     } else if (current.getDirection() == 'D') { // Continue Down
-                        if (!isBlocked2(current.getDirection(), current.getxAxis(), current.getyAxis() + UNIT_SIZE)) {
+                        if (!isBlocked(current.getDirection(), current.getxAxis(), current.getyAxis() + UNIT_SIZE)) {
                             n = new Node(current.getxAxis(), current.getyAxis() + UNIT_SIZE, gCost2, findHCost2(current.getxAxis(), current.getyAxis()));
                             if (open.contains(n) || closed.contains(n)) {
                                 exists = true;
@@ -728,7 +708,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                             continue;
                         }
                     } else { // Continue Up
-                        if(!isBlocked2(current.getDirection(), current.getxAxis(), current.getyAxis() - UNIT_SIZE)) {
+                        if(!isBlocked(current.getDirection(), current.getxAxis(), current.getyAxis() - UNIT_SIZE)) {
                             n = new Node(current.getxAxis(), current.getyAxis() - UNIT_SIZE, gCost2, findHCost2(current.getxAxis(), current.getyAxis()));
                             if (open.contains(n) || closed.contains(n)) {
                                 exists = true;
@@ -739,7 +719,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                     }
                 } else if (i == 1) {
                     if (current.getDirection() == 'R') { // Turn Down
-                        if(!isBlocked2('D', current.getxAxis(), current.getyAxis() + UNIT_SIZE)) {
+                        if(!isBlocked('D', current.getxAxis(), current.getyAxis() + UNIT_SIZE)) {
                             n = new Node(current.getxAxis(), current.getyAxis() + UNIT_SIZE, gCost2, findHCost2(current.getxAxis(), current.getyAxis()));
                             if (open.contains(n) || closed.contains(n)) {
                                 exists = true;
@@ -748,7 +728,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                             continue;
                         }
                     } else if (current.getDirection() == 'L') { // Turn Up
-                        if(!isBlocked2('U', current.getxAxis(), current.getyAxis() - UNIT_SIZE)) {
+                        if(!isBlocked('U', current.getxAxis(), current.getyAxis() - UNIT_SIZE)) {
                             n = new Node(current.getxAxis(), current.getyAxis() - UNIT_SIZE, gCost2, findHCost2(current.getxAxis(), current.getyAxis()));
                             if (open.contains(n) || closed.contains(n)) {
                                 exists = true;
@@ -757,7 +737,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                             continue;
                         }
                     } else if (current.getDirection() == 'D') { // Turn Left
-                        if(!isBlocked2('L', current.getxAxis() - UNIT_SIZE, current.getyAxis())) {
+                        if(!isBlocked('L', current.getxAxis() - UNIT_SIZE, current.getyAxis())) {
                             n = new Node(current.getxAxis() - UNIT_SIZE, current.getyAxis(), gCost2, findHCost2(current.getxAxis(), current.getyAxis()));
                             if (open.contains(n) || closed.contains(n)) {
                                 exists = true;
@@ -766,7 +746,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                             continue;
                         }
                     } else { // Turn Right
-                        if(!isBlocked2('R', current.getxAxis() + UNIT_SIZE, current.getyAxis())) {
+                        if(!isBlocked('R', current.getxAxis() + UNIT_SIZE, current.getyAxis())) {
                             n = new Node(current.getxAxis() + UNIT_SIZE, current.getyAxis(), gCost2, findHCost2(current.getxAxis(), current.getyAxis()));
                             if (open.contains(n) || closed.contains(n)) {
                                 exists = true;
@@ -777,7 +757,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                     }
                 } else {
                     if (current.getDirection() == 'R') { // Turn Up
-                        if(!isBlocked2('U', current.getxAxis(), current.getyAxis() - UNIT_SIZE)) {
+                        if(!isBlocked('U', current.getxAxis(), current.getyAxis() - UNIT_SIZE)) {
                             n = new Node(current.getxAxis(), current.getyAxis() - UNIT_SIZE, gCost2, findHCost2(current.getxAxis(), current.getyAxis()));
                             if (open.contains(n) || closed.contains(n)) {
                                 exists = true;
@@ -786,7 +766,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                             continue;
                         }
                     } else if (current.getDirection() == 'L') { // Turn Down
-                        if(!isBlocked2('D', current.getxAxis(), current.getyAxis() + UNIT_SIZE)) {
+                        if(!isBlocked('D', current.getxAxis(), current.getyAxis() + UNIT_SIZE)) {
                             n = new Node(current.getxAxis(), current.getyAxis() + UNIT_SIZE, gCost2, findHCost2(current.getxAxis(), current.getyAxis()));
                             if (open.contains(n) || closed.contains(n)) {
                                 exists = true;
@@ -795,7 +775,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                             continue;
                         }
                     } else if (current.getDirection() == 'D') { // Turn Right
-                        if(!isBlocked2('R', current.getxAxis() + UNIT_SIZE, current.getyAxis())) {
+                        if(!isBlocked('R', current.getxAxis() + UNIT_SIZE, current.getyAxis())) {
                             n = new Node(current.getxAxis() + UNIT_SIZE, current.getyAxis(), gCost2, findHCost2(current.getxAxis(), current.getyAxis()));
                             if (open.contains(n) || closed.contains(n)) {
                                 exists = true;
@@ -804,7 +784,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                             continue;
                         }
                     } else { // Turn Left
-                        if(!isBlocked2('L', current.getxAxis() - UNIT_SIZE, current.getyAxis())) {
+                        if(!isBlocked('L', current.getxAxis() - UNIT_SIZE, current.getyAxis())) {
                             n = new Node(current.getxAxis() - UNIT_SIZE, current.getyAxis(), gCost2, findHCost2(current.getxAxis(), current.getyAxis()));
                             if (open.contains(n) || closed.contains(n)) {
                                 exists = true;
