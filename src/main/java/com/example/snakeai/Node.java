@@ -9,7 +9,6 @@ public class Node implements Comparable<Node> {
     int hCost;  //to final
     int fCost;  //sum
     Node parent;
-    boolean walkable;
     char direction = 'x';
     boolean Closed = false;
 

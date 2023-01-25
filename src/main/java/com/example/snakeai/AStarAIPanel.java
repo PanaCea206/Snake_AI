@@ -140,7 +140,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                     g.fillRect(x2[i], y2[i], UNIT_SIZE, UNIT_SIZE);
                 }
             }
-            g.setColor(Color.RED);
+            g.setColor(Color.GREEN);
             g.setFont(new Font("Arial", Font.BOLD, 40));
             FontMetrics metrics = getFontMetrics(g.getFont());
             g.drawString("S1: " + applesEaten1, (SCREEN_WIDTH - metrics.stringWidth("S1: " + applesEaten1))/4, g.getFont().getSize());
