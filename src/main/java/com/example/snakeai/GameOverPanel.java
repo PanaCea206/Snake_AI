@@ -33,7 +33,7 @@ public class GameOverPanel extends JPanel {
         setBackground(Color.BLACK);
         setLayout(null);
 
-        JButton again = new JButton("Again");
+        JButton again = new JButton("Play Again");
         again.setLayout(null);
         again.setBounds((width / 2) - 100, (height - (height / 4)) - 30, 200, 60);
         again.addActionListener(new AStarListener(frame));
@@ -46,16 +46,16 @@ public class GameOverPanel extends JPanel {
     }
 
     public void draw(Graphics g) {
-        g.setColor(Color.RED);
+        g.setColor(Color.green);
         g.setFont(new Font("ARIAL", Font.BOLD, 40));
         FontMetrics metrics1 = getFontMetrics(g.getFont());
         g.drawString("SNAKE1: " + applesEaten1 + "    SNAKE2: " + applesEaten2, (width - metrics1.stringWidth("SNAKE1: " + applesEaten1 + "    P2 Score: " + applesEaten2))/2, g.getFont().getSize());
 
 
         g.setColor(Color.GREEN);
-        g.setFont(new Font("Ink Free", Font.BOLD, 75));
+        g.setFont(new Font("ARIAL", Font.BOLD, 75));
         FontMetrics metrics2 = getFontMetrics(g.getFont());
-        g.drawString("Winner: " + winner, (width - metrics2.stringWidth("Winner: " + winner))/2, height / 2);
+        g.drawString(winner + " Won", (width - metrics2.stringWidth(winner + " Won"))/2, height / 2);
     }
 
 }
