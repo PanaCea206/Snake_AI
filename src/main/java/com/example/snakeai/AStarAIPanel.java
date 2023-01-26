@@ -54,6 +54,10 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
     int gCost2;
     String winner = "No Snake";
     String how;
+    winCount wincount;
+    private int win1;
+    private int win2;
+
 
     public AStarAIPanel(JFrame frame, int w, int h) {
         SCREEN_WIDTH = w;
@@ -87,12 +91,13 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
     }
 
     public void restart() {
-        bodyParts1 = 3;
+        /*bodyParts1 = 3;
         bodyParts2 = 3;
         direction1 = 'R';
         direction2 = 'R';
         applesEaten1 = 0;
         applesEaten2 = 0;
+        String winner = "No Snake";
         for (int i = bodyParts1; i >= 0; i--) {
             x1[i] = 0;
             y1[i] = 0;
@@ -100,7 +105,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
         for (int i = bodyParts2; i >= 0; i--) {
             x2[i] = 0;
             y2[i] = 0;
-        }
+        }*/
         startGame();
     }
 
@@ -356,12 +361,17 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
         }
         if (!running) {
             timer.stop();
+            wincount = new winCount();
+            wincount.winCount(winner);
+            win1 = wincount.getWin1();
+            win2 = wincount.getWin2();
         }
     }
 
 
+
     public void gameOver(Graphics g) {
-            ((MyFrame) frame).gameOverAStar(new GameOverPanel(applesEaten1, applesEaten2, SCREEN_WIDTH, SCREEN_HEIGHT,frame, winner));
+            ((MyFrame) frame).gameOverAStar(new GameOverPanel(applesEaten1, applesEaten2, how, win1, win2, SCREEN_WIDTH, SCREEN_HEIGHT,frame, winner));
         }
 
 
