@@ -15,10 +15,6 @@ public class winCount {
         }
     }
 
-    public void increase(){
-
-    }
-
     public int getWin1(){
         return this.win1;
     }

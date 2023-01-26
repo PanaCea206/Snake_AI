@@ -88,6 +88,8 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
         running = true;
         timer = new Timer(DELAY, this);
         timer.start();
+
+
     }
 
     public void restart() {
