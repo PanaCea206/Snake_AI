@@ -19,7 +19,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
     final int SCREEN_HEIGHT;
     static final int UNIT_SIZE = 25;
     final int GAME_UNITS;
-    static final int DELAY = 70;
+    static final int DELAY = 100;
     final int x1[];
     final int y1[];
     final int x2[];
@@ -155,10 +155,10 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
     }
 
     public void newApple() {
-        appletimer = new appleTimer(this);
+
         appleX = random.nextInt((int)(SCREEN_WIDTH/UNIT_SIZE)) * UNIT_SIZE;
         appleY = random.nextInt((int)(SCREEN_HEIGHT/UNIT_SIZE)) * UNIT_SIZE;
-        appletimer.appleThree();
+
         fixApple();
 
         System.out.println("apple: "+appleX + " , " + appleY); // 575 it stops working
@@ -191,6 +191,11 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
     }
 
     private void fixApple() {
+        /*appletimer = new appleTimer(this);
+        appletimer.appleThree();
+        if(appletimer.apple == false){
+            newApple();
+        }*/
         for(int i = bodyParts1; i>0; i--) {
             if(appleX == x1[i] && appleY == y1[i]) {
                 newApple();

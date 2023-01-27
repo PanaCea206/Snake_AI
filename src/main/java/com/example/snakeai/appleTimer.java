@@ -18,6 +18,6 @@ public class appleTimer {
                 apple = false;
                 System.out.println("apple respawn");
             }
-        },  3*60*1000);
+        },  100);
     }
 }
