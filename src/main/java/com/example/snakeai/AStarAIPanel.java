@@ -55,6 +55,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
     String winner = "No Snake";
     String how;
     tenMin tenmin;
+    appleTimer appletimer;
 
 
     public AStarAIPanel(JFrame frame, int w, int h) {
@@ -86,9 +87,6 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
         running = true;
         timer = new Timer(DELAY, this);
         timer.start();
-
-
-
     }
 
     /*public void restart() {
@@ -157,8 +155,10 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
     }
 
     public void newApple() {
+        appletimer = new appleTimer(this);
         appleX = random.nextInt((int)(SCREEN_WIDTH/UNIT_SIZE)) * UNIT_SIZE;
         appleY = random.nextInt((int)(SCREEN_HEIGHT/UNIT_SIZE)) * UNIT_SIZE;
+        appletimer.appleThree();
         fixApple();
 
         System.out.println("apple: "+appleX + " , " + appleY); // 575 it stops working
@@ -183,6 +183,10 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
         directions2 = new char[numDirections2];
         for (int i = 0; i < numDirections2; i++) {
             directions2[i] = path2.get(i).getDirection();
+        }
+        // apple respawn in three secconds
+        if(appletimer.apple == false){
+            newApple();
         }
     }
 
