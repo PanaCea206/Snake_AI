@@ -45,10 +45,10 @@ public class MyFrame extends JFrame {
         cardLayout.next(contentPane);
     }
 
-    public void playAgainAStar() {
+    /*public void playAgainAStar() {
         cardLayout.next(contentPane);
         aStarAIPanel.restart();
         contentPane.remove(GOAS);
         aStarAIPanel.requestFocusInWindow();
-    }
+    }*/
 }

@@ -33,7 +33,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
     char direction1 = 'R';
     char direction2 = 'R';
     boolean running = false;
-    Timer timer;
+    Timer timer;    //swing
     Random random;
     Random random1;
     Random random2;
@@ -54,7 +54,6 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
     int gCost2;
     String winner = "No Snake";
     String how;
-    winCount wincount;
     private int win1;
     private int win2;
 
@@ -92,7 +91,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
 
     }
 
-    public void restart() {
+    /*public void restart() {
         /*bodyParts1 = 3;
         bodyParts2 = 3;
         direction1 = 'R';
@@ -107,9 +106,9 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
         for (int i = bodyParts2; i >= 0; i--) {
             x2[i] = 0;
             y2[i] = 0;
-        }*/
+        }
         startGame();
-    }
+    }*/
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -363,10 +362,6 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
         }
         if (!running) {
             timer.stop();
-            wincount = new winCount();
-            wincount.winCount(winner);
-            win1 = wincount.getWin1();
-            win2 = wincount.getWin2();
         }
     }
 
@@ -375,7 +370,6 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
     public void gameOver(Graphics g) {
             ((MyFrame) frame).gameOverAStar(new GameOverPanel(applesEaten1, applesEaten2, how, win1, win2, SCREEN_WIDTH, SCREEN_HEIGHT,frame, winner));
         }
-
 
     public void actionPerformed(ActionEvent event) {
         if(running) {
