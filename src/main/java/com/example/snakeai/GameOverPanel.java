@@ -23,7 +23,7 @@ public class GameOverPanel extends JPanel {
     int win2;
 
 
-    public GameOverPanel(int applesEaten1, int applesEaten2, String how, int win1, int win2, int width, int height, JFrame frame, String winner) {
+    public GameOverPanel(int applesEaten1, int applesEaten2, String how, int width, int height, JFrame frame, String winner) {
 
         this.applesEaten1 = applesEaten1;
         this.applesEaten2 = applesEaten2;

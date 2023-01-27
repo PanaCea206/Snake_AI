@@ -54,8 +54,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
     int gCost2;
     String winner = "No Snake";
     String how;
-    private int win1;
-    private int win2;
+    tenMin tenmin;
 
 
     public AStarAIPanel(JFrame frame, int w, int h) {
@@ -87,6 +86,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
         running = true;
         timer = new Timer(DELAY, this);
         timer.start();
+
 
 
     }
@@ -360,15 +360,15 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                 System.out.println(how);
             }
         }
+        tenmin = new tenMin(this);
+        tenmin.gameStop();
         if (!running) {
             timer.stop();
         }
     }
 
-
-
     public void gameOver(Graphics g) {
-            ((MyFrame) frame).gameOverAStar(new GameOverPanel(applesEaten1, applesEaten2, how, win1, win2, SCREEN_WIDTH, SCREEN_HEIGHT,frame, winner));
+            ((MyFrame) frame).gameOverAStar(new GameOverPanel(applesEaten1, applesEaten2, how, SCREEN_WIDTH, SCREEN_HEIGHT,frame, winner));
         }
 
     public void actionPerformed(ActionEvent event) {
