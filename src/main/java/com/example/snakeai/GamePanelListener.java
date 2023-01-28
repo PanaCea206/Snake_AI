@@ -5,11 +5,11 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 
-public class AStarListener implements ActionListener {
+public class GamePanelListener implements ActionListener {
 
     JFrame frame;
 
-    public AStarListener(JFrame frame) {
+    public GamePanelListener(JFrame frame) {
         this.frame = frame;
     }
 
@@ -17,7 +17,7 @@ public class AStarListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Thread thread = new Thread(){
             public void run(){
-                ((MyFrame) frame).aStarAI();
+                ((Frame) frame).GameP();
             }
         };
 

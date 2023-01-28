@@ -6,8 +6,8 @@ import java.util.TimerTask;
 public class appleTimer {
     Timer timer;
     boolean apple = true;
-    AStarAIPanel astaraipanel;
-    public appleTimer(AStarAIPanel astaraipanel){
+    GamePanel astaraipanel;
+    public appleTimer(GamePanel astaraipanel){
         this.astaraipanel = astaraipanel;
     }
 
@@ -18,6 +18,6 @@ public class appleTimer {
                 apple = false;
                 System.out.println("apple respawn");
             }
-        },  100);
+        },  1000);
     }
 }

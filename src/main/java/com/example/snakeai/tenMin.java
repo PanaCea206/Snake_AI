@@ -1,13 +1,12 @@
 package com.example.snakeai;
 
-import java.awt.*;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class tenMin {
     Timer timer;
-    AStarAIPanel astaraipanel;
-    public tenMin(AStarAIPanel astaraipanel){
+    GamePanel astaraipanel;
+    public tenMin(GamePanel astaraipanel){
         this.astaraipanel = astaraipanel;
     }
 

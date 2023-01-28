@@ -38,7 +38,7 @@ public class GameOverPanel extends JPanel {
         JButton again = new JButton("Play Again");
         again.setLayout(null);
         again.setBounds((width / 2) - 100, (height - (height / 4)) - 30, 200, 60);
-        again.addActionListener(new AStarListener(frame));
+        again.addActionListener(new GamePanelListener(frame));
         add(again);
     }
 

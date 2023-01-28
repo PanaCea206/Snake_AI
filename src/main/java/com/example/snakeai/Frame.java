@@ -1,24 +1,21 @@
 package com.example.snakeai;
 
 import java.awt.CardLayout;
-import java.awt.GraphicsConfiguration;
-import java.awt.HeadlessException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
-public class MyFrame extends JFrame {
+public class Frame extends JFrame {
 
-    static final int SCREEN_WIDTH = 600;
-    static final int SCREEN_HEIGHT = 600;
+    static final int WIDTH = 600;
+    static final int HEIGHT = 600;
     private JPanel contentPane;
-    private AStarAIPanel aStarAIPanel;
+    private GamePanel gamePanel;
     private GameOverPanel GOAS;
-    private MenuPanel MPanel = new MenuPanel(SCREEN_WIDTH, SCREEN_HEIGHT, this);
+    private MenuPanel MPanel = new MenuPanel(WIDTH, HEIGHT, this);
     CardLayout cardLayout = new CardLayout();
 
-    public MyFrame() {
+    public Frame() {
         setTitle("Snake");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         contentPane = new JPanel();
@@ -31,17 +28,17 @@ public class MyFrame extends JFrame {
         setLocationRelativeTo(null);
     }
 
-    public void aStarAI() {
-        aStarAIPanel = new AStarAIPanel(this, SCREEN_WIDTH, SCREEN_HEIGHT);
-        contentPane.add(aStarAIPanel, "A* AI Panel");
+    public void GameP() {
+        gamePanel = new GamePanel(this, WIDTH, HEIGHT);
+        contentPane.add(gamePanel, "Game Panel");
         cardLayout.next(contentPane);
         contentPane.remove(MPanel);
-        aStarAIPanel.requestFocusInWindow();
+        gamePanel.requestFocusInWindow();
     }
 
-    public void gameOverAStar(GameOverPanel GOAS) {
+    public void gameOver(GameOverPanel GOAS) {
         this.GOAS = GOAS;
-        contentPane.add(GOAS, "GameOver A* Panel");
+        contentPane.add(GOAS, "GameOver");
         cardLayout.next(contentPane);
     }
 

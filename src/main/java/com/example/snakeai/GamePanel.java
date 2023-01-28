@@ -13,19 +13,19 @@ import java.util.PriorityQueue;
 import java.util.Random;
 import javax.swing.*;
 
-public class AStarAIPanel extends JPanel implements ActionListener  {
+public class GamePanel extends JPanel implements ActionListener  {
 
-    final int SCREEN_WIDTH;
-    final int SCREEN_HEIGHT;
+    final int WIDTH;
+    final int HEIGHT;
     static final int UNIT_SIZE = 25;
     final int GAME_UNITS;
-    static final int DELAY = 100;
+    static final int DELAY = 65;
     final int x1[];
     final int y1[];
     final int x2[];
     final int y2[];
-    int bodyParts1 = 3;
-    int bodyParts2 = 3;
+    int body1 = 3;
+    int body2 = 3;
     int applesEaten1;
     int applesEaten2;
     int appleX;
@@ -33,7 +33,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
     char direction1 = 'R';
     char direction2 = 'R';
     boolean running = false;
-    Timer timer;    //swing
+    Timer timer;
     Random random;
     Random random1;
     Random random2;
@@ -58,10 +58,10 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
     appleTimer appletimer;
 
 
-    public AStarAIPanel(JFrame frame, int w, int h) {
-        SCREEN_WIDTH = w;
-        SCREEN_HEIGHT = h;
-        GAME_UNITS = (SCREEN_WIDTH*SCREEN_HEIGHT)/UNIT_SIZE;
+    public GamePanel(JFrame frame, int w, int h) {
+        WIDTH = w;
+        HEIGHT = h;
+        GAME_UNITS = (WIDTH*HEIGHT)/UNIT_SIZE;
         this.x1 = new int[GAME_UNITS];
         this.y1 = new int[GAME_UNITS];
         this.x2 = new int[GAME_UNITS];
@@ -70,7 +70,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
         random = new Random();
         random1 = new Random();
         random2 = new Random();
-        setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
+        setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setBackground(Color.BLACK);
         setFocusable(true);
         startGame();
@@ -79,11 +79,11 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
 
     public void startGame() {
         //new snake
-        x1[0] = random1.nextInt((int)(SCREEN_WIDTH/UNIT_SIZE)) * UNIT_SIZE;
-        y1[0] = random1.nextInt((int)(SCREEN_HEIGHT/UNIT_SIZE)) * UNIT_SIZE;
-        x2[0] = random2.nextInt((int)(SCREEN_WIDTH/UNIT_SIZE)) * UNIT_SIZE;
-        y2[0] = random2.nextInt((int)(SCREEN_HEIGHT/UNIT_SIZE)) * UNIT_SIZE;
-        newApple();
+        x1[0] = random1.nextInt((int)(WIDTH/UNIT_SIZE)) * UNIT_SIZE;
+        y1[0] = random1.nextInt((int)(HEIGHT/UNIT_SIZE)) * UNIT_SIZE;
+        x2[0] = random2.nextInt((int)(WIDTH/UNIT_SIZE)) * UNIT_SIZE;
+        y2[0] = random2.nextInt((int)(HEIGHT/UNIT_SIZE)) * UNIT_SIZE;
+        SpawnApple();
         running = true;
         timer = new Timer(DELAY, this);
         timer.start();
@@ -118,7 +118,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
             g.setColor(Color.RED);
             g.fillRect(appleX, appleY, UNIT_SIZE, UNIT_SIZE);   //coordinate of x/y,  width/heigh of the oval
             timer.setDelay(DELAY);
-            for (int i = 0; i < bodyParts1; i++) {
+            for (int i = 0; i < body1; i++) {
                 if (applesEaten1 % 10 == 0 && applesEaten1 != 0) {
                     timer.setDelay(45);
                     g.setColor(new Color(random1.nextInt(255), random1.nextInt(255), random1.nextInt(255)));
@@ -131,7 +131,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                     g.fillRect(x1[i], y1[i], UNIT_SIZE, UNIT_SIZE);
                 }
             }
-            for (int i = 0; i < bodyParts2; i++) {
+            for (int i = 0; i < body2; i++) {
                 if (applesEaten2 % 10 == 0 && applesEaten2 != 0) {
                     timer.setDelay(45);
                     g.setColor(new Color(random2.nextInt(255), random2.nextInt(255), random2.nextInt(255)));
@@ -147,24 +147,24 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
             g.setColor(Color.GREEN);
             g.setFont(new Font("Arial", Font.BOLD, 40));
             FontMetrics metrics = getFontMetrics(g.getFont());
-            g.drawString("S1: " + applesEaten1, (SCREEN_WIDTH - metrics.stringWidth("S1: " + applesEaten1))/4, g.getFont().getSize());
-            g.drawString("S2: " + applesEaten2, (SCREEN_WIDTH - metrics.stringWidth("S2: " + applesEaten2))*3/4, g.getFont().getSize());
+            g.drawString("S1: " + applesEaten1, (WIDTH - metrics.stringWidth("S1: " + applesEaten1))/4, g.getFont().getSize());
+            g.drawString("S2: " + applesEaten2, (WIDTH - metrics.stringWidth("S2: " + applesEaten2))*3/4, g.getFont().getSize());
         } else {
             gameOver(g);
         }
     }
 
-    public void newApple() {
+    public void SpawnApple() {
 
-        appleX = random.nextInt((int)(SCREEN_WIDTH/UNIT_SIZE)) * UNIT_SIZE;
-        appleY = random.nextInt((int)(SCREEN_HEIGHT/UNIT_SIZE)) * UNIT_SIZE;
+        appleX = random.nextInt((int)(WIDTH/UNIT_SIZE)) * UNIT_SIZE;
+        appleY = random.nextInt((int)(HEIGHT/UNIT_SIZE)) * UNIT_SIZE;
 
         fixApple();
 
         System.out.println("apple: "+appleX + " , " + appleY); // 575 it stops working
 
-        List<Node> path1 = aStar1();
-        List<Node> path2 = aStar2();
+        List<Node> path1 = Bot1();
+        List<Node> path2 = Bot2();
         if (path1 == null) {
             numDirections1 = -1;
             return;
@@ -193,19 +193,32 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
         if(appletimer.apple == false){
             newApple();
         }*/
-        for(int i = bodyParts1; i>0; i--) {
+        for(int i = body1; i>0; i--) {
             if(appleX == x1[i] && appleY == y1[i]) {
-                newApple();
+                SpawnApple();
             }
         }
-        for(int i = bodyParts2; i>0; i--) {
+        for(int i = body2; i>0; i--) {
             if(appleX == x2[i] && appleY == y2[i]) {
-                newApple();
+                SpawnApple();
             }
         }
     }
 
-    public void move() {
+    public void checkApple() {
+        if((x1[0] == appleX) && (y1[0] == appleY)) {
+            body1++;
+            applesEaten1++;
+            SpawnApple();
+        }
+        if((x2[0] == appleX) && (y2[0] == appleY)) {
+            body2++;
+            applesEaten2++;
+            SpawnApple();
+        }
+    }
+
+    public void Run() {
         if (numDirections1 != -1) {
             direction1 = directions1[numDirections1 - 1];
             numDirections1--;
@@ -215,12 +228,12 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
             numDirections2--;
         }
 
-        for(int i = bodyParts1; i > 0; i--) {
+        for(int i = body1; i > 0; i--) {
             x1[i] = x1[i-1];
             y1[i] = y1[i-1];
         }
 
-        for(int i = bodyParts2; i > 0; i--) {
+        for(int i = body2; i > 0; i--) {
             x2[i] = x2[i-1];
             y2[i] = y2[i-1];
         }
@@ -255,22 +268,9 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
         }
     }
 
-    public void checkApple() {
-        if((x1[0] == appleX) && (y1[0] == appleY)) {
-            bodyParts1++;
-            applesEaten1++;
-            newApple();
-        }
-        if((x2[0] == appleX) && (y2[0] == appleY)) {
-            bodyParts2++;
-            applesEaten2++;
-            newApple();
-        }
-    }
-
-    public void checkCollisions() {
+    public void Collisions() {
         //p2 won
-        for (int i = bodyParts1; i > 0; i--) {
+        for (int i = body1; i > 0; i--) {
             if ((x1[0] == x1[i]) && (y1[0] == y1[i])) {
                 running = false;
                 winner = "Snake2";
@@ -283,7 +283,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
             winner = "Snake2";
             how = "Snake 1 out from the board";
         }
-        if (x1[0] > SCREEN_WIDTH) {
+        if (x1[0] > WIDTH) {
             running = false;
             winner = "Snake2";
             how="Snake 1 out from the board";
@@ -295,7 +295,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
             how = "Snake 1 out from the board";
             System.out.println(how);
         }
-        if (y1[0] > SCREEN_HEIGHT) {
+        if (y1[0] > HEIGHT) {
             running = false;
             winner = "Snake2";
             how = "Snake 1 out from the board";
@@ -303,7 +303,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
         }
 
         //p1 won
-        for (int i = bodyParts2; i > 0; i--) {
+        for (int i = body2; i > 0; i--) {
             if ((x2[0] == x2[i]) && (y2[0] == y2[i])) {
                 running = false;
                 winner = "Snake1";
@@ -317,7 +317,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
             how = "Snake 2 out from the board";
             System.out.println(how);
         }
-        if (x2[0] > SCREEN_WIDTH) {
+        if (x2[0] > WIDTH) {
             running = false;
             winner = "Snake1";
             how = "Snake 2 out from the board";
@@ -329,14 +329,14 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
             how = "Snake 2 out from the board";
             System.out.println(how);
         }
-        if (y2[0] > SCREEN_HEIGHT) {
+        if (y2[0] > HEIGHT) {
             running = false;
             winner = "Snake1";
             how = "Snake 2 out from the board";
             System.out.println(how);
         }
         //p2 won
-        for (int i = bodyParts2; i > 0; i--) {
+        for (int i = body2; i > 0; i--) {
             if ((x1[0] == x2[i]) && (y1[0] == y2[i])) {
                 running = false;
                 winner = "Snake2";
@@ -345,7 +345,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
             }
         }
         //p1 won
-        for (int i = bodyParts1; i > 0; i--) {
+        for (int i = body1; i > 0; i--) {
             if ((x2[0] == x1[i]) && (y2[0] == y1[i])) {
                 running = false;
                 winner = "Snake1";
@@ -355,12 +355,12 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
         }
         if(x1[0]==x2[0] && y1[0]==y2[0]){
             running = false;
-            if(bodyParts1>bodyParts2){
+            if(body1>body2){
                 winner = "Snake1";
                 how = "Snake 1 is longer";
                 System.out.println(how);
             }
-            if(bodyParts2>bodyParts1){
+            if(body2>body1){
                 winner = "Snake2";
                 how = "Snake 2 is longer";
                 System.out.println(how);
@@ -374,7 +374,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
     }
 
     public void gameOver(Graphics g) {
-            ((MyFrame) frame).gameOverAStar(new GameOverPanel(applesEaten1, applesEaten2, how, SCREEN_WIDTH, SCREEN_HEIGHT,frame, winner));
+            ((Frame) frame).gameOver(new GameOverPanel(applesEaten1, applesEaten2, how, WIDTH, HEIGHT,frame, winner));
         }
 
     public void actionPerformed(ActionEvent event) {
@@ -385,9 +385,9 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
             if (numDirections2 == -1) {
                 pathFinder2();
             }
-            move();
+            Run();
             checkApple();
-            checkCollisions();
+            Collisions();
         }
         repaint();
     }
@@ -395,15 +395,15 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
     private boolean isBlocked(char d, int x, int y) {
         if (d == 'R' ) {
             //border
-            if (x >= SCREEN_WIDTH) {
+            if (x >= WIDTH) {
                 return true;
             }
-            for (int i = bodyParts1; i > 0; i--) {
+            for (int i = body1; i > 0; i--) {
                 if ((x == this.x1[i]) && (y == this.y1[i])) {
                     return true;
                 }
             }
-            for (int i = bodyParts2; i > 0; i--) {
+            for (int i = body2; i > 0; i--) {
                 if ((x == this.x2[i]) && (y == this.y2[i])) {
                     return true;
                 }
@@ -412,26 +412,26 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
             if (x < 0) {
                 return true;
             }
-            for (int i = bodyParts1; i > 0; i--) {
+            for (int i = body1; i > 0; i--) {
                 if ((x == this.x1[i]) && (y == this.y1[i])) {
                     return true;
                 }
             }
-            for (int i = bodyParts2; i > 0; i--) {
+            for (int i = body2; i > 0; i--) {
                 if ((x == this.x2[i]) && (y == this.y2[i])) {
                     return true;
                 }
             }
         } else if (d == 'D') {
-            if (y >= SCREEN_WIDTH) {
+            if (y >= WIDTH) {
                 return true;
             }
-            for (int i = bodyParts1; i > 0; i--) {
+            for (int i = body1; i > 0; i--) {
                 if ((x == this.x1[i]) && (y == this.y1[i])) {
                     return true;
                 }
             }
-            for (int i = bodyParts2; i > 0; i--) {
+            for (int i = body2; i > 0; i--) {
                 if ((x == this.x2[i]) && (y == this.y2[i])) {
                     return true;
                 }
@@ -440,12 +440,12 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
             if (y < 0) {
                 return true;
             }
-            for (int i = bodyParts1; i > 0; i--) {
+            for (int i = body1; i > 0; i--) {
                 if ((x == this.x1[i]) && (y == this.y1[i])) {
                     return true;
                 }
             }
-            for (int i = bodyParts2; i > 0; i--) {
+            for (int i = body2; i > 0; i--) {
                 if ((x == this.x2[i]) && (y == this.y2[i])) {
                     return true;
                 }
@@ -454,7 +454,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
         return false;
     }
 
-    private List<Node> aStar1() {
+    private List<Node> Bot1() {
 
         List<Node> parents = new ArrayList<Node>();
         PriorityQueue<Node> open = new PriorityQueue<Node>();
@@ -476,7 +476,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
             current.close();
             closed.add(current);
 
-            if (count1 > (SCREEN_WIDTH / UNIT_SIZE) * (SCREEN_HEIGHT / UNIT_SIZE) * 10) {
+            if (count1 > (WIDTH / UNIT_SIZE) * (HEIGHT / UNIT_SIZE) * 10) {
                 System.out.println("Couldnt find path");
                 return null;
             }
@@ -638,7 +638,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
         }
         return null;
     }
-    private List<Node> aStar2() {
+    private List<Node> Bot2() {
 
         List<Node> parents = new ArrayList<Node>();
         PriorityQueue<Node> open = new PriorityQueue<Node>();
@@ -660,7 +660,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
             current.close();
             closed.add(current);
 
-            if (count2 > (SCREEN_WIDTH / UNIT_SIZE) * (SCREEN_HEIGHT / UNIT_SIZE) * 10) {
+            if (count2 > (WIDTH / UNIT_SIZE) * (HEIGHT / UNIT_SIZE) * 10) {
                 System.out.println("Couldnt find path");
                 return null;
             }
@@ -862,7 +862,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                 // If space to go up
                 if (y1[0] - UNIT_SIZE >= 0) {
                     // If no body parts blocking
-                    for(int i = bodyParts1; i>0; i--) {
+                    for(int i = body1; i>0; i--) {
                         if((x1[0] == x1[i]) && (y1[0] - UNIT_SIZE == y1[i])) {
                             blocked = true;
                             break;
@@ -884,7 +884,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                 // If space to go left
                 if(x1[0] - UNIT_SIZE >= 0) {
                     // If no body parts blocking
-                    for(int i = bodyParts1; i>0; i--) {
+                    for(int i = body1; i>0; i--) {
                         if((x1[0] - UNIT_SIZE == x1[i]) && (y1[0] == y1[i])) {
                             blocked = true;
                             break;
@@ -904,9 +904,9 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                 }
 
                 // If space to go right
-                if(x1[0] + UNIT_SIZE < SCREEN_WIDTH) {
+                if(x1[0] + UNIT_SIZE < WIDTH) {
                     // If no body parts blocking
-                    for(int i = bodyParts1; i>0; i--) {
+                    for(int i = body1; i>0; i--) {
                         if((x1[0] + UNIT_SIZE == x1[i]) && (y1[0] == y1[i])) {
                             blocked = true;
                             break;
@@ -945,9 +945,9 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                 hCostC = 0;
 
                 // If space to go down
-                if (y1[0] + UNIT_SIZE < SCREEN_HEIGHT) {
+                if (y1[0] + UNIT_SIZE < HEIGHT) {
                     // If no body parts blocking
-                    for (int i = bodyParts1; i > 0; i--) {
+                    for (int i = body1; i > 0; i--) {
                         if ((x1[0] == x1[i]) && (y1[0] + UNIT_SIZE == y1[i])) {
                             blocked = true;
                             break;
@@ -969,7 +969,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                 // If space to go left
                 if (x1[0] - UNIT_SIZE >= 0) {
                     // If no body parts blocking
-                    for (int i = bodyParts1; i > 0; i--) {
+                    for (int i = body1; i > 0; i--) {
                         if ((x1[0] - UNIT_SIZE == x1[i]) && (y1[0] == y1[i])) {
                             blocked = true;
                             break;
@@ -989,9 +989,9 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                 }
 
                 // If space to go right
-                if (x1[0] + UNIT_SIZE < SCREEN_WIDTH) {
+                if (x1[0] + UNIT_SIZE < WIDTH) {
                     // If no body parts blocking
-                    for (int i = bodyParts1; i > 0; i--) {
+                    for (int i = body1; i > 0; i--) {
                         if ((x1[0] + UNIT_SIZE == x1[i]) && (y1[0] == y1[i])) {
                             blocked = true;
                             break;
@@ -1032,7 +1032,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                 // If space to go left
                 if (x1[0] - UNIT_SIZE >= 0) {
                     // If no body parts blocking
-                    for (int i = bodyParts1; i > 0; i--) {
+                    for (int i = body1; i > 0; i--) {
                         if ((x1[0] - UNIT_SIZE == x1[i]) && (y1[0] == y1[i])) {
                             blocked = true;
                             break;
@@ -1052,9 +1052,9 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                 }
 
                 // If space to go down
-                if (y1[0] + UNIT_SIZE < SCREEN_HEIGHT) {
+                if (y1[0] + UNIT_SIZE < HEIGHT) {
                     // If no body parts blocking
-                    for (int i = bodyParts1; i > 0; i--) {
+                    for (int i = body1; i > 0; i--) {
                         if ((x1[0] == x1[i]) && (y1[0] + UNIT_SIZE == y1[i])) {
                             blocked = true;
                             break;
@@ -1076,7 +1076,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                 // If space to go up
                 if (y1[0] - UNIT_SIZE >= 0) {
                     // If no body parts blocking
-                    for (int i = bodyParts1; i > 0; i--) {
+                    for (int i = body1; i > 0; i--) {
                         if ((x1[0] == x1[i]) && (y1[0] - UNIT_SIZE == y1[i])) {
                             blocked = true;
                             break;
@@ -1115,9 +1115,9 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                 hCostC = 0;
 
                 // If space to go right
-                if (x1[0] + UNIT_SIZE < SCREEN_WIDTH) {
+                if (x1[0] + UNIT_SIZE < WIDTH) {
                     // If no body parts blocking
-                    for (int i = bodyParts1; i > 0; i--) {
+                    for (int i = body1; i > 0; i--) {
                         if ((x1[0] + UNIT_SIZE == x1[i]) && (y1[0] == y1[i])) {
                             blocked = true;
                             break;
@@ -1137,9 +1137,9 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                 }
 
                 // If space to go down
-                if (y1[0] + UNIT_SIZE < SCREEN_HEIGHT) {
+                if (y1[0] + UNIT_SIZE < HEIGHT) {
                     // If no body parts blocking
-                    for (int i = bodyParts1; i > 0; i--) {
+                    for (int i = body1; i > 0; i--) {
                         if ((x1[0] == x1[i]) && (y1[0] + UNIT_SIZE == y1[i])) {
                             blocked = true;
                             break;
@@ -1161,7 +1161,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                 // If space to go up
                 if (y1[0] - UNIT_SIZE >= 0) {
                     // If no body parts blocking
-                    for (int i = bodyParts1; i > 0; i--) {
+                    for (int i = body1; i > 0; i--) {
                         if ((x1[0] == x1[i]) && (y1[0] - UNIT_SIZE == y1[i])) {
                             blocked = true;
                             break;
@@ -1214,7 +1214,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                 // If space to go up
                 if (y2[0] - UNIT_SIZE >= 0) {
                     // If no body parts blocking
-                    for(int i = bodyParts2; i>0; i--) {
+                    for(int i = body2; i>0; i--) {
                         if((x2[0] == x2[i]) && (y2[0] - UNIT_SIZE == y2[i])) {
                             blocked = true;
                             break;
@@ -1236,7 +1236,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                 // If space to go left
                 if(x2[0] - UNIT_SIZE >= 0) {
                     // If no body parts blocking
-                    for(int i = bodyParts2; i>0; i--) {
+                    for(int i = body2; i>0; i--) {
                         if((x2[0] - UNIT_SIZE == x2[i]) && (y2[0] == y2[i])) {
                             blocked = true;
                             break;
@@ -1256,9 +1256,9 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                 }
 
                 // If space to go right
-                if(x2[0] + UNIT_SIZE < SCREEN_WIDTH) {
+                if(x2[0] + UNIT_SIZE < WIDTH) {
                     // If no body parts blocking
-                    for(int i = bodyParts2; i>0; i--) {
+                    for(int i = body2; i>0; i--) {
                         if((x2[0] + UNIT_SIZE == x2[i]) && (y2[0] == y2[i])) {
                             blocked = true;
                             break;
@@ -1297,9 +1297,9 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                 hCostC = 0;
 
                 // If space to go down
-                if (y2[0] + UNIT_SIZE < SCREEN_HEIGHT) {
+                if (y2[0] + UNIT_SIZE < HEIGHT) {
                     // If no body parts blocking
-                    for (int i = bodyParts2; i > 0; i--) {
+                    for (int i = body2; i > 0; i--) {
                         if ((x2[0] == x2[i]) && (y2[0] + UNIT_SIZE == y2[i])) {
                             blocked = true;
                             break;
@@ -1321,7 +1321,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                 // If space to go left
                 if (x2[0] - UNIT_SIZE >= 0) {
                     // If no body parts blocking
-                    for (int i = bodyParts2; i > 0; i--) {
+                    for (int i = body2; i > 0; i--) {
                         if ((x2[0] - UNIT_SIZE == x2[i]) && (y2[0] == y2[i])) {
                             blocked = true;
                             break;
@@ -1341,9 +1341,9 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                 }
 
                 // If space to go right
-                if (x2[0] + UNIT_SIZE < SCREEN_WIDTH) {
+                if (x2[0] + UNIT_SIZE < WIDTH) {
                     // If no body parts blocking
-                    for (int i = bodyParts2; i > 0; i--) {
+                    for (int i = body2; i > 0; i--) {
                         if ((x2[0] + UNIT_SIZE == x2[i]) && (y2[0] == y2[i])) {
                             blocked = true;
                             break;
@@ -1384,7 +1384,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                 // If space to go left
                 if (x2[0] - UNIT_SIZE >= 0) {
                     // If no body parts blocking
-                    for (int i = bodyParts2; i > 0; i--) {
+                    for (int i = body2; i > 0; i--) {
                         if ((x2[0] - UNIT_SIZE == x2[i]) && (y2[0] == y2[i])) {
                             blocked = true;
                             break;
@@ -1404,9 +1404,9 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                 }
 
                 // If space to go down
-                if (y2[0] + UNIT_SIZE < SCREEN_HEIGHT) {
+                if (y2[0] + UNIT_SIZE < HEIGHT) {
                     // If no body parts blocking
-                    for (int i = bodyParts2; i > 0; i--) {
+                    for (int i = body2; i > 0; i--) {
                         if ((x2[0] == x2[i]) && (y2[0] + UNIT_SIZE == y2[i])) {
                             blocked = true;
                             break;
@@ -1428,7 +1428,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                 // If space to go up
                 if (y2[0] - UNIT_SIZE >= 0) {
                     // If no body parts blocking
-                    for (int i = bodyParts2; i > 0; i--) {
+                    for (int i = body2; i > 0; i--) {
                         if ((x2[0] == x2[i]) && (y2[0] - UNIT_SIZE == y2[i])) {
                             blocked = true;
                             break;
@@ -1467,9 +1467,9 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                 hCostC = 0;
 
                 // If space to go right
-                if (x2[0] + UNIT_SIZE < SCREEN_WIDTH) {
+                if (x2[0] + UNIT_SIZE < WIDTH) {
                     // If no body parts blocking
-                    for (int i = bodyParts2; i > 0; i--) {
+                    for (int i = body2; i > 0; i--) {
                         if ((x2[0] + UNIT_SIZE == x2[i]) && (y2[0] == y2[i])) {
                             blocked = true;
                             break;
@@ -1489,9 +1489,9 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                 }
 
                 // If space to go down
-                if (y2[0] + UNIT_SIZE < SCREEN_HEIGHT) {
+                if (y2[0] + UNIT_SIZE < HEIGHT) {
                     // If no body parts blocking
-                    for (int i = bodyParts2; i > 0; i--) {
+                    for (int i = body2; i > 0; i--) {
                         if ((x2[0] == x2[i]) && (y2[0] + UNIT_SIZE == y2[i])) {
                             blocked = true;
                             break;
@@ -1513,7 +1513,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
                 // If space to go up
                 if (y2[0] - UNIT_SIZE >= 0) {
                     // If no body parts blocking
-                    for (int i = bodyParts2; i > 0; i--) {
+                    for (int i = body2; i > 0; i--) {
                         if ((x2[0] == x2[i]) && (y2[0] - UNIT_SIZE == y2[i])) {
                             blocked = true;
                             break;
