@@ -184,10 +184,7 @@ public class AStarAIPanel extends JPanel implements ActionListener  {
         for (int i = 0; i < numDirections2; i++) {
             directions2[i] = path2.get(i).getDirection();
         }
-        // apple respawn in three secconds
-        if(appletimer.apple == false){
-            newApple();
-        }
+
     }
 
     private void fixApple() {
