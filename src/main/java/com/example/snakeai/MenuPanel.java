@@ -24,11 +24,9 @@ public class MenuPanel extends JPanel {
         setBackground(Color.BLACK);
         setLayout(null);
 
-
         JButton Start = new JButton("START");
         Start.setLayout(null);
         Start.setBounds((width / 2) - 100, (height / 5) + 325 - 30, 200, 60);
-        //Start.setBackground(Color.GREEN);
         Start.addActionListener(new GamePanelListener(frame));
         add(Start);
     }
