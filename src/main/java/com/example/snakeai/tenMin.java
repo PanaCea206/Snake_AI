@@ -6,8 +6,8 @@ import java.util.TimerTask;
 public class tenMin {
     //Timer timer;
     GamePanel gamepanel;
-    public tenMin(GamePanel astaraipanel){
-        this.gamepanel = astaraipanel;
+    public tenMin(GamePanel gamepanel){
+        this.gamepanel = gamepanel;
     }
 
     public void gameStop(){
