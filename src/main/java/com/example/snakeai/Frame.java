@@ -41,11 +41,4 @@ public class Frame extends JFrame {
         contentPane.add(GOAS, "GameOver");
         cardLayout.next(contentPane);
     }
-
-    /*public void playAgainAStar() {
-        cardLayout.next(contentPane);
-        aStarAIPanel.restart();
-        contentPane.remove(GOAS);
-        aStarAIPanel.requestFocusInWindow();
-    }*/
 }

@@ -4,26 +4,26 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class tenMin {
-    Timer timer;
-    GamePanel astaraipanel;
+    //Timer timer;
+    GamePanel gamepanel;
     public tenMin(GamePanel astaraipanel){
-        this.astaraipanel = astaraipanel;
+        this.gamepanel = astaraipanel;
     }
 
     public void gameStop(){
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             public void run() {
-                astaraipanel.running = false;
-                astaraipanel.how = "Time's up";
-                if(astaraipanel.applesEaten1 > astaraipanel.applesEaten2){
-                    astaraipanel.winner = "Snake 1";
+                gamepanel.running = false;
+                gamepanel.how = "Time's up";
+                if(gamepanel.applesEaten1 > gamepanel.applesEaten2){
+                    gamepanel.winner = "Snake 1";
                 }
-                if(astaraipanel.applesEaten2 > astaraipanel.applesEaten1){
-                    astaraipanel.winner = "Snake 2";
+                if(gamepanel.applesEaten2 > gamepanel.applesEaten1){
+                    gamepanel.winner = "Snake 2";
                 }
-                if(astaraipanel.applesEaten1 == astaraipanel.applesEaten2){
-                    astaraipanel.winner = "No Snake";
+                if(gamepanel.applesEaten1 == gamepanel.applesEaten2){
+                    gamepanel.winner = "No Snake";
                 }
             }
         }, 3*60*1000);
