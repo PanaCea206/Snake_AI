@@ -158,7 +158,7 @@ public class GamePanel extends JPanel implements ActionListener  {
             gameOver(g);
         }
     }
-//jjk
+
     public void SpawnApple() {
 
         appleX = random.nextInt((int)(WIDTH/UNIT_SIZE)) * UNIT_SIZE;
