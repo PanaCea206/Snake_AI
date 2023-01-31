@@ -15,11 +15,7 @@ public class GamePanelListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Thread thread = new Thread(){
-            public void run(){
-                ((Frame) frame).GameP();
-            }
-        };
+        Thread thread = new Thread(() -> ((Frame) frame).GameP());
 
         thread.start();
     }
