@@ -36,9 +36,9 @@ public class Frame extends JFrame {
         gamePanel.requestFocusInWindow();
     }
 
-    public void gameOver(GameOverPanel GOAS) {
-        this.GameOP = GOAS;
-        contentPane.add(GOAS, "GameOver");
+    public void gameOver(GameOverPanel GameOP) {
+        this.GameOP = GameOP;
+        contentPane.add(GameOP, "GameOver");
         cardLayout.next(contentPane);
     }
 }
