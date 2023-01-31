@@ -119,11 +119,7 @@ public class GamePanel extends JPanel implements ActionListener  {
             g.fillRect(appleX, appleY, UNIT_SIZE, UNIT_SIZE);   //coordinate of x/y,  width/heigh of the oval
             timer.setDelay(DELAY);
             for (int i = 0; i < body1; i++) {
-                if (applesEaten1 % 10 == 0 && applesEaten1 != 0) {
-                    timer.setDelay(45);
-                    g.setColor(new Color(random1.nextInt(255), random1.nextInt(255), random1.nextInt(255)));
-                    g.fillRect(x1[i], y1[i], UNIT_SIZE, UNIT_SIZE);
-                } else if (i == 0) {    //set head
+                if (i == 0) {    //set head
                     g.setColor(Color.BLUE);
                     g.fillRect(x1[i], y1[i], UNIT_SIZE, UNIT_SIZE); //coordinate of x/y,  width/heigh of the rectangle
                 } else {    //set body
@@ -132,11 +128,7 @@ public class GamePanel extends JPanel implements ActionListener  {
                 }
             }
             for (int i = 0; i < body2; i++) {
-                if (applesEaten2 % 10 == 0 && applesEaten2 != 0) {
-                    timer.setDelay(45);
-                    g.setColor(new Color(random2.nextInt(255), random2.nextInt(255), random2.nextInt(255)));
-                    g.fillRect(x2[i], y2[i], UNIT_SIZE, UNIT_SIZE);
-                } else if (i == 0) {
+                if (i == 0) {
                     g.setColor(Color.GREEN);
                     g.fillRect(x2[i], y2[i], UNIT_SIZE, UNIT_SIZE);
                 } else {

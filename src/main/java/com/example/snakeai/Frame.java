@@ -11,7 +11,7 @@ public class Frame extends JFrame {
     static final int HEIGHT = 600;
     private JPanel contentPane;
     private GamePanel gamePanel;
-    private GameOverPanel GameOP;
+    //private GameOverPanel GameOP;
     private MenuPanel MPanel = new MenuPanel(WIDTH, HEIGHT, this);
     CardLayout cardLayout = new CardLayout();
 
@@ -37,7 +37,7 @@ public class Frame extends JFrame {
     }
 
     public void gameOver(GameOverPanel GameOP) {
-        this.GameOP = GameOP;
+        //this.GameOP = GameOP;
         contentPane.add(GameOP, "GameOver");
         cardLayout.next(contentPane);
     }
