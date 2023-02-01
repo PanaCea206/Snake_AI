@@ -542,7 +542,8 @@ public class GamePanel extends JPanel implements ActionListener  {
                             continue;
                         }
                     }
-                } else if (i == 1) {
+                }
+                else if (i == 1) {
                     if (current.getDirection() == 'R') { // Turn Down
                         if(!isBlocked('D', current.getxAxis(), current.getyAxis() + UNIT_SIZE)) {
                             n = new Node(current.getxAxis(), current.getyAxis() + UNIT_SIZE, gCost1, findHCost1(current.getxAxis(), current.getyAxis()));
@@ -580,7 +581,8 @@ public class GamePanel extends JPanel implements ActionListener  {
                             continue;
                         }
                     }
-                } else {
+                }
+                else {  //i == 2
                     if (current.getDirection() == 'R') { // Turn Up
                         if(!isBlocked('U', current.getxAxis(), current.getyAxis() - UNIT_SIZE)) {
                             n = new Node(current.getxAxis(), current.getyAxis() - UNIT_SIZE, gCost1, findHCost1(current.getxAxis(), current.getyAxis()));
