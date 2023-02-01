@@ -454,11 +454,11 @@ public class GamePanel extends JPanel implements ActionListener  {
     private List<Node> Bot1() {
 
         List<Node> parents = new ArrayList<Node>();
-        PriorityQueue<Node> open = new PriorityQueue<Node>();
-        List<Node> closed = new ArrayList<Node>();
-
+        PriorityQueue<Node> open = new PriorityQueue<Node>();   //Nodes to be evaluated
+        List<Node> closed = new ArrayList<Node>();              //Nodes already evaluated
         count1 = 0;
         gCost1 = 0;
+
         Node startNode = new Node(x1[0], y1[0], gCost1, findHCost1(x1[0], y1[0]));
         startNode.setDirection(direction1);
         Node goalNode = new Node(appleX, appleY, findHCost1(x1[0], y1[0]), 0);
@@ -469,15 +469,16 @@ public class GamePanel extends JPanel implements ActionListener  {
 
             count1++;
 
-            Node current = open.poll();
-            current.close();
-            closed.add(current);
+            Node current = open.poll(); //remove from open
+            current.close();            // true
+            closed.add(current);           //add to closed
 
             if (count1 > (WIDTH / UNIT_SIZE) * (HEIGHT / UNIT_SIZE) * 10) {
                 System.out.println("Couldnt find path");
                 return null;
             }
 
+            // if current is the target Node
             if (current.same(goalNode)) {
                 //backtrack and create parents list
                 boolean finished = false;
@@ -492,7 +493,7 @@ public class GamePanel extends JPanel implements ActionListener  {
                 return parents;
             }
 
-            // check neighbours
+            // check neighbours //i == 0 is current direction
             for (int i = 0; i < 3; i++) {
 
                 if (i == 0) {
@@ -500,9 +501,9 @@ public class GamePanel extends JPanel implements ActionListener  {
                 } else {
                     gCost1 = 14; // if change direction, costs more
                 }
-
                 boolean exists = false;
-                Node n;
+                Node n; //next Node
+
                 if (i == 0) {
                     if (current.getDirection() == 'R') { // Continue Right
                         // CHECK IF BLOCKED
@@ -511,10 +512,11 @@ public class GamePanel extends JPanel implements ActionListener  {
                             if (open.contains(n) || closed.contains(n)) {
                                 exists = true;
                             }
-                        } else {
+                        } else {    //if its blocked, check next neighbor
                             continue;
                         }
-                    } else if (current.getDirection() == 'L') { // Continue Left
+                    }
+                    else if (current.getDirection() == 'L') { // Continue Left
                         if (!isBlocked(current.getDirection(), current.getxAxis() - UNIT_SIZE, current.getyAxis())) {
                             n = new Node(current.getxAxis() - UNIT_SIZE, current.getyAxis(), gCost1, findHCost1(current.getxAxis(), current.getyAxis()));
                             if (open.contains(n) || closed.contains(n)) {
@@ -523,7 +525,8 @@ public class GamePanel extends JPanel implements ActionListener  {
                         } else {
                             continue;
                         }
-                    } else if (current.getDirection() == 'D') { // Continue Down
+                    }
+                    else if (current.getDirection() == 'D') { // Continue Down
                         if (!isBlocked(current.getDirection(), current.getxAxis(), current.getyAxis() + UNIT_SIZE)) {
                             n = new Node(current.getxAxis(), current.getyAxis() + UNIT_SIZE, gCost1, findHCost1(current.getxAxis(), current.getyAxis()));
                             if (open.contains(n) || closed.contains(n)) {
@@ -532,7 +535,8 @@ public class GamePanel extends JPanel implements ActionListener  {
                         } else {
                             continue;
                         }
-                    } else { // Continue Up
+                    }
+                    else { // Continue Up
                         if(!isBlocked(current.getDirection(), current.getxAxis(), current.getyAxis() - UNIT_SIZE)) {
                             n = new Node(current.getxAxis(), current.getyAxis() - UNIT_SIZE, gCost1, findHCost1(current.getxAxis(), current.getyAxis()));
                             if (open.contains(n) || closed.contains(n)) {
@@ -582,7 +586,7 @@ public class GamePanel extends JPanel implements ActionListener  {
                         }
                     }
                 }
-                else {  //i == 2
+                else {
                     if (current.getDirection() == 'R') { // Turn Up
                         if(!isBlocked('U', current.getxAxis(), current.getyAxis() - UNIT_SIZE)) {
                             n = new Node(current.getxAxis(), current.getyAxis() - UNIT_SIZE, gCost1, findHCost1(current.getxAxis(), current.getyAxis()));
@@ -626,6 +630,7 @@ public class GamePanel extends JPanel implements ActionListener  {
                     continue;
                 }
 
+                //next node should not be closed and exists   //the node was in open is closed
                 if (n.getFCost() <= current.getFCost() || !open.contains(n)) {
                     n.setParent(current);
                     if (!open.contains(n)) {
