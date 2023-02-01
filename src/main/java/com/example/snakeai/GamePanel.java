@@ -216,8 +216,8 @@ public class GamePanel extends JPanel implements ActionListener  {
     }
 
     public void Run() {
-        if (numDirections1 != -1) {
-            direction1 = directions1[numDirections1 - 1];
+        if (numDirections1 != -1) { // if numDirections1 == -1, direction1 is defined in pathfinder1
+            direction1 = directions1[numDirections1 - 1];   //list add from front
             numDirections1--;
         }
         if (numDirections2 != -1) {
@@ -644,9 +644,9 @@ public class GamePanel extends JPanel implements ActionListener  {
     }
     private List<Node> Bot2() {
 
-        List<Node> parents = new ArrayList<Node>();
-        PriorityQueue<Node> open = new PriorityQueue<Node>();
-        List<Node> closed = new ArrayList<Node>();
+        List<Node> parents = new ArrayList<>();
+        PriorityQueue<Node> open = new PriorityQueue<>();
+        List<Node> closed = new ArrayList<>();
 
         count2 = 0;
         gCost2 = 0;
@@ -853,7 +853,7 @@ public class GamePanel extends JPanel implements ActionListener  {
         int hCostB = 0;
         int hCostC = 0;
         boolean blocked = false;
-        int fCostA = 999999999;
+        int fCostA = 999999999; //if blocked the number will be 999999999
         int fCostB = 999999999;
         int fCostC = 999999999;
 
@@ -929,16 +929,16 @@ public class GamePanel extends JPanel implements ActionListener  {
                     blocked = false;
                 }
 
-                if(fCostA <= fCostB && fCostA <= fCostC) {
+                if(fCostA <= fCostB && fCostA <= fCostC) {  // the up neighbor cost is the less
                     direction1 = 'U';
                 } else if (fCostB < fCostA && fCostB <= fCostC) {
                     direction1 = 'L';
                 } else if(fCostC < fCostB && fCostC < fCostA) {
                     direction1 = 'R';
                 }
-                fCostA = 999999999;
-                fCostB = 999999999;
-                fCostC = 999999999;
+                //fCostA = 999999999;
+                //fCostB = 999999999;
+                //fCostC = 999999999;
 
                 break;
 
@@ -1021,9 +1021,9 @@ public class GamePanel extends JPanel implements ActionListener  {
                 } else if (fCostC < fCostB && fCostC < fCostA) {
                     direction1 = 'R';
                 }
-                fCostA = 999999999;
-                fCostB = 999999999;
-                fCostC = 999999999;
+                //fCostA = 999999999;
+                //fCostB = 999999999;
+                //fCostC = 999999999;
 
                 break;
 
@@ -1107,11 +1107,12 @@ public class GamePanel extends JPanel implements ActionListener  {
                     direction1 = 'U';
                 }
 
-                fCostA = 999999999;
-                fCostB = 999999999;
-                fCostC = 999999999;
+                //fCostA = 999999999;
+                //fCostB = 999999999;
+                //fCostC = 999999999;
 
                 break;
+
             // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             case 'R':
                 hCostA = 0;
@@ -1192,9 +1193,9 @@ public class GamePanel extends JPanel implements ActionListener  {
                     direction1 = 'U';
                 }
 
-                fCostA = 999999999;
-                fCostB = 999999999;
-                fCostC = 999999999;
+                //fCostA = 999999999;
+                //fCostB = 999999999;
+                //fCostC = 999999999;
 
                 break;
         }
