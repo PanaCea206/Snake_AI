@@ -470,8 +470,8 @@ public class GamePanel extends JPanel implements ActionListener  {
             count1++;
 
             Node current = open.poll(); //remove from open
-            current.close();            // true
-            closed.add(current);           //add to closed
+            current.close();            //true
+            closed.add(current);        //add to closed
 
             if (count1 > (WIDTH / UNIT_SIZE) * (HEIGHT / UNIT_SIZE) * 10) {
                 System.out.println("Couldnt find path");
@@ -630,7 +630,7 @@ public class GamePanel extends JPanel implements ActionListener  {
                     continue;
                 }
 
-                //next node should not be closed and exists   //the node was in open is closed
+                // next node should not be closed and exists   //the node was in open is closed
                 if (n.getFCost() <= current.getFCost() || !open.contains(n)) {
                     n.setParent(current);
                     if (!open.contains(n)) {
