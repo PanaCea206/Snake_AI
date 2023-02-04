@@ -19,7 +19,7 @@ public class GamePanel extends JPanel implements ActionListener  {
     final int HEIGHT;
     static final int UNIT_SIZE = 25;
     final int GAME_UNITS;
-    static final int DELAY = 200;
+    static final int DELAY = 75;
     final int x1[];
     final int y1[];
     final int x2[];
@@ -89,25 +89,6 @@ public class GamePanel extends JPanel implements ActionListener  {
         timer.start();
     }
 
-    /*public void restart() {
-        /*bodyParts1 = 3;
-        bodyParts2 = 3;
-        direction1 = 'R';
-        direction2 = 'R';
-        applesEaten1 = 0;
-        applesEaten2 = 0;
-        String winner = "No Snake";
-        for (int i = bodyParts1; i >= 0; i--) {
-            x1[i] = 0;
-            y1[i] = 0;
-        }
-        for (int i = bodyParts2; i >= 0; i--) {
-            x2[i] = 0;
-            y2[i] = 0;
-        }
-        startGame();
-    }*/
-
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         draw(g);
@@ -160,7 +141,7 @@ public class GamePanel extends JPanel implements ActionListener  {
 
         System.out.println("apple: "+appleX + " , " + appleY); // 575 it stops working
 
-        List<Node> path1 = Bot1();
+        List<Node> path1 = Bot1();  //the value from parents list
         List<Node> path2 = Bot2();
         if (path1 == null) {
             numDirections1 = -1;
@@ -395,59 +376,30 @@ public class GamePanel extends JPanel implements ActionListener  {
             if (x >= WIDTH) {
                 return true;
             }
-            for (int i = body1; i > 0; i--) {
-                if ((x == this.x1[i]) && (y == this.y1[i])) {
-                    return true;
-                }
-            }
-            for (int i = body2; i > 0; i--) {
-                if ((x == this.x2[i]) && (y == this.y2[i])) {
-                    return true;
-                }
-            }
         } else if (d == 'L') {
             if (x < 0) {
                 return true;
-            }
-            for (int i = body1; i > 0; i--) {
-                if ((x == this.x1[i]) && (y == this.y1[i])) {
-                    return true;
-                }
-            }
-            for (int i = body2; i > 0; i--) {
-                if ((x == this.x2[i]) && (y == this.y2[i])) {
-                    return true;
-                }
             }
         } else if (d == 'D') {
             if (y >= WIDTH) {
                 return true;
             }
-            for (int i = body1; i > 0; i--) {
-                if ((x == this.x1[i]) && (y == this.y1[i])) {
-                    return true;
-                }
-            }
-            for (int i = body2; i > 0; i--) {
-                if ((x == this.x2[i]) && (y == this.y2[i])) {
-                    return true;
-                }
-            }
         } else {
             if (y < 0) {
                 return true;
             }
-            for (int i = body1; i > 0; i--) {
-                if ((x == this.x1[i]) && (y == this.y1[i])) {
-                    return true;
-                }
-            }
-            for (int i = body2; i > 0; i--) {
-                if ((x == this.x2[i]) && (y == this.y2[i])) {
-                    return true;
-                }
+        }
+        for (int i = body2; i > 0; i--) {
+            if ((x == this.x2[i]) && (y == this.y2[i])) {
+                return true;
             }
         }
+        for (int i = body1; i > 0; i--){
+            if ((x == this.x1[i]) && (y == this.y1[i])) {
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -460,7 +412,7 @@ public class GamePanel extends JPanel implements ActionListener  {
         gCost1 = 0;
 
         Node startNode = new Node(x1[0], y1[0], gCost1, findHCost1(x1[0], y1[0]));
-        startNode.setDirection(direction1);
+        startNode.setDirection(direction1); //start with R
         Node goalNode = new Node(appleX, appleY, findHCost1(x1[0], y1[0]), 0);
 
         open.add(startNode);
@@ -490,7 +442,7 @@ public class GamePanel extends JPanel implements ActionListener  {
                         finished = true;
                     }
                 }
-                return parents;
+                return parents; //the Bot1 value
             }
 
             // check neighbours //i == 0 is current direction
@@ -640,7 +592,7 @@ public class GamePanel extends JPanel implements ActionListener  {
                 }
             }
         }
-        return null;
+        return null;    //open is empty
     }
     private List<Node> Bot2() {
 
@@ -872,12 +824,7 @@ public class GamePanel extends JPanel implements ActionListener  {
                             break;
                         }
                     }
-                    /*for(int j = body2; j>0; j--) {
-                        if ((x1[0] == x2[j]) && (y1[0] - UNIT_SIZE == y2[j])) {
-                            blocked = true;
-                            break;
-                        }
-                    }*/
+
                     if (blocked != true) {
                         // Going up
                         xDistance1 = Math.abs((appleX - x1[0]) / UNIT_SIZE);
@@ -900,12 +847,7 @@ public class GamePanel extends JPanel implements ActionListener  {
                             break;
                         }
                     }
-                    /*for(int j = body2; j>0; j--) {
-                        if ((x1[0] - UNIT_SIZE == x2[j]) && (y1[0] == y2[j])) {
-                            blocked = true;
-                            break;
-                        }
-                    }*/
+
                     if (blocked != true) {
                         // Going left
                         xDistance1 = Math.abs((appleX - (x1[0] - UNIT_SIZE)) / UNIT_SIZE);
@@ -928,12 +870,7 @@ public class GamePanel extends JPanel implements ActionListener  {
                             break;
                         }
                     }
-                    /*for(int j = body2; j>0; j--) {
-                        if ((x1[0] + UNIT_SIZE == x2[j]) && (y1[0] == y2[j])) {
-                            blocked = true;
-                            break;
-                        }
-                    }*/
+
                     if (blocked != true) {
                         // Going right
                         xDistance1 = Math.abs((appleX - (x1[0] + UNIT_SIZE)) / UNIT_SIZE);
@@ -975,12 +912,7 @@ public class GamePanel extends JPanel implements ActionListener  {
                             break;
                         }
                     }
-                    /*for(int j = body2; j>0; j--) {
-                        if ((x1[0] == x2[j]) && (y1[0] + UNIT_SIZE == y2[j])) {
-                            blocked = true;
-                            break;
-                        }
-                    }*/
+
                     if (blocked != true) {
                         // Going down
                         xDistance1 = Math.abs((appleX - x1[0]) / UNIT_SIZE);
@@ -1003,12 +935,7 @@ public class GamePanel extends JPanel implements ActionListener  {
                             break;
                         }
                     }
-                    /*for(int j = body2; j>0; j--) {
-                        if ((x1[0] - UNIT_SIZE == x2[j]) && (y1[0] == y2[j])) {
-                            blocked = true;
-                            break;
-                        }
-                    }*/
+
                     if (blocked != true) {
                         // Going left
                         xDistance1 = Math.abs((appleX - (x1[0] - UNIT_SIZE)) / UNIT_SIZE);
@@ -1031,12 +958,7 @@ public class GamePanel extends JPanel implements ActionListener  {
                             break;
                         }
                     }
-                    /*for(int j = body2; j>0; j--) {
-                        if ((x1[0] + UNIT_SIZE == x2[j]) && (y1[0] == y2[j])) {
-                            blocked = true;
-                            break;
-                        }
-                    }*/
+
                     if (blocked != true) {
                         // Going right
                         xDistance1 = Math.abs((appleX - (x1[0] + UNIT_SIZE)) / UNIT_SIZE);
@@ -1078,12 +1000,7 @@ public class GamePanel extends JPanel implements ActionListener  {
                             break;
                         }
                     }
-                    /*for(int j = body2; j>0; j--) {
-                        if ((x1[0] - UNIT_SIZE == x2[j]) && (y1[0] == y2[j])) {
-                            blocked = true;
-                            break;
-                        }
-                    }*/
+
                     if (blocked != true) {
                         // Going left
                         xDistance1 = Math.abs((appleX - (x1[0] - UNIT_SIZE)) / UNIT_SIZE);
@@ -1106,12 +1023,7 @@ public class GamePanel extends JPanel implements ActionListener  {
                             break;
                         }
                     }
-                    /*for(int j = body2; j>0; j--) {
-                        if ((x1[0] == x2[j]) && (y1[0] + UNIT_SIZE == y2[j])) {
-                            blocked = true;
-                            break;
-                        }
-                    }*/
+
                     if (blocked != true) {
                         // Going down
                         xDistance1 = Math.abs((appleX - x1[0]) / UNIT_SIZE);
@@ -1134,12 +1046,7 @@ public class GamePanel extends JPanel implements ActionListener  {
                             break;
                         }
                     }
-                    /*for(int j = body2; j>0; j--) {
-                        if ((x1[0] == x2[j]) && (y1[0] - UNIT_SIZE == y2[j])) {
-                            blocked = true;
-                            break;
-                        }
-                    }*/
+
                     if (blocked != true) {
                         // Going up
                         xDistance1 = Math.abs((appleX - x1[0]) / UNIT_SIZE);
@@ -1182,12 +1089,7 @@ public class GamePanel extends JPanel implements ActionListener  {
                             break;
                         }
                     }
-                    /*for(int j = body2; j>0; j--) {
-                        if ((x1[0] + UNIT_SIZE == x2[j]) && (y1[0] == y2[j])) {
-                            blocked = true;
-                            break;
-                        }
-                    }*/
+
                     if (blocked != true) {
                         // Going right
                         xDistance1 = Math.abs((appleX - (x1[0] + UNIT_SIZE)) / UNIT_SIZE);
@@ -1210,12 +1112,7 @@ public class GamePanel extends JPanel implements ActionListener  {
                             break;
                         }
                     }
-                    /*for(int j = body2; j>0; j--) {
-                        if ((x1[0] == x2[j]) && (y1[0] + UNIT_SIZE == y2[j])) {
-                            blocked = true;
-                            break;
-                        }
-                    }*/
+
                     if (blocked != true) {
                         // Going down
                         xDistance1 = Math.abs((appleX - x1[0]) / UNIT_SIZE);
@@ -1238,12 +1135,7 @@ public class GamePanel extends JPanel implements ActionListener  {
                             break;
                         }
                     }
-                    /*for(int j = body2; j>0; j--) {
-                        if ((x1[0] == x2[j]) && (y1[0] - UNIT_SIZE == y2[j])) {
-                            blocked = true;
-                            break;
-                        }
-                    }*/
+
                     if (blocked != true) {
                         // Going up
                         xDistance1 = Math.abs((appleX - x1[0]) / UNIT_SIZE);
@@ -1297,12 +1189,7 @@ public class GamePanel extends JPanel implements ActionListener  {
                             break;
                         }
                     }
-                    /*for(int j = body1; j>0; j--) {
-                        if ((x2[0] == x1[j]) && (y2[0] - UNIT_SIZE == y1[j])) {
-                            blocked = true;
-                            break;
-                        }
-                    }*/
+
                     if (blocked != true) {
                         // Going up
                         xDistance2 = Math.abs((appleX - x2[0]) / UNIT_SIZE);
@@ -1325,12 +1212,7 @@ public class GamePanel extends JPanel implements ActionListener  {
                             break;
                         }
                     }
-                    /*for(int j = body1; j>0; j--) {
-                        if ((x2[0] - UNIT_SIZE == x1[j]) && (y2[0] == y1[j])) {
-                            blocked = true;
-                            break;
-                        }
-                    }*/
+
                     if (blocked != true) {
                         // Going left
                         xDistance2 = Math.abs((appleX - (x2[0] - UNIT_SIZE)) / UNIT_SIZE);
@@ -1353,12 +1235,7 @@ public class GamePanel extends JPanel implements ActionListener  {
                             break;
                         }
                     }
-                    /*for(int j = body1; j>0; j--) {
-                        if ((x2[0] + UNIT_SIZE == x1[j]) && (y2[0] == y1[j])) {
-                            blocked = true;
-                            break;
-                        }
-                    }*/
+
                     if (blocked != true) {
                         // Going right
                         xDistance2 = Math.abs((appleX - (x2[0] + UNIT_SIZE)) / UNIT_SIZE);
@@ -1400,12 +1277,7 @@ public class GamePanel extends JPanel implements ActionListener  {
                             break;
                         }
                     }
-                    /*for(int j = body1; j>0; j--) {
-                        if ((x2[0] == x1[j]) && (y2[0] + UNIT_SIZE == y1[j])) {
-                            blocked = true;
-                            break;
-                        }
-                    }*/
+
                     if (blocked != true) {
                         // Going down
                         xDistance2 = Math.abs((appleX - x2[0]) / UNIT_SIZE);
@@ -1428,12 +1300,7 @@ public class GamePanel extends JPanel implements ActionListener  {
                             break;
                         }
                     }
-                    /*for(int j = body1; j>0; j--) {
-                        if ((x2[0] - UNIT_SIZE == x1[j]) && (y2[0] == y1[j])) {
-                            blocked = true;
-                            break;
-                        }
-                    }*/
+
                     if (blocked != true) {
                         // Going left
                         xDistance2 = Math.abs((appleX - (x2[0] - UNIT_SIZE)) / UNIT_SIZE);
@@ -1456,12 +1323,7 @@ public class GamePanel extends JPanel implements ActionListener  {
                             break;
                         }
                     }
-                    /*for(int j = body1; j>0; j--) {
-                        if ((x2[0] + UNIT_SIZE == x1[j]) && (y2[0] == y1[j])) {
-                            blocked = true;
-                            break;
-                        }
-                    }*/
+
                     if (blocked != true) {
                         // Going right
                         xDistance2 = Math.abs((appleX - (x2[0] + UNIT_SIZE)) / UNIT_SIZE);
@@ -1503,12 +1365,7 @@ public class GamePanel extends JPanel implements ActionListener  {
                             break;
                         }
                     }
-                    /*for(int j = body1; j>0; j--) {
-                        if ((x2[0] - UNIT_SIZE == x1[j]) && (y2[0] == y1[j])) {
-                            blocked = true;
-                            break;
-                        }
-                    }*/
+
                     if (blocked != true) {
                         // Going left
                         xDistance2 = Math.abs((appleX - (x2[0] - UNIT_SIZE)) / UNIT_SIZE);
@@ -1531,12 +1388,7 @@ public class GamePanel extends JPanel implements ActionListener  {
                             break;
                         }
                     }
-                    /*for(int j = body1; j>0; j--) {
-                        if ((x2[0] == x1[j]) && (y2[0] + UNIT_SIZE == y1[j])) {
-                            blocked = true;
-                            break;
-                        }
-                    }*/
+
                     if (blocked != true) {
                         // Going down
                         xDistance2 = Math.abs((appleX - x2[0]) / UNIT_SIZE);
@@ -1559,12 +1411,7 @@ public class GamePanel extends JPanel implements ActionListener  {
                             break;
                         }
                     }
-                    /*for(int j = body1; j>0; j--) {
-                        if ((x2[0] == x1[j]) && (y2[0] - UNIT_SIZE == y1[j])) {
-                            blocked = true;
-                            break;
-                        }
-                    }*/
+
                     if (blocked != true) {
                         // Going up
                         xDistance2 = Math.abs((appleX - x2[0]) / UNIT_SIZE);
@@ -1606,12 +1453,7 @@ public class GamePanel extends JPanel implements ActionListener  {
                             break;
                         }
                     }
-                    /*for(int j = body1; j>0; j--) {
-                        if ((x2[0] + UNIT_SIZE == x1[j]) && (y2[0] == y1[j])) {
-                            blocked = true;
-                            break;
-                        }
-                    }*/
+
                     if (blocked != true) {
                         // Going right
                         xDistance2 = Math.abs((appleX - (x2[0] + UNIT_SIZE)) / UNIT_SIZE);
@@ -1634,12 +1476,7 @@ public class GamePanel extends JPanel implements ActionListener  {
                             break;
                         }
                     }
-                    /*for(int j = body1; j>0; j--) {
-                        if ((x2[0] == x1[j]) && (y2[0] + UNIT_SIZE == y1[j])) {
-                            blocked = true;
-                            break;
-                        }
-                    }*/
+
                     if (blocked != true) {
                         // Going down
                         xDistance2 = Math.abs((appleX - x2[0]) / UNIT_SIZE);
@@ -1662,12 +1499,7 @@ public class GamePanel extends JPanel implements ActionListener  {
                             break;
                         }
                     }
-                    /*for(int j = body1; j>0; j--) {
-                        if ((x2[0] == x1[j]) && (y2[0] - UNIT_SIZE == y1[j])) {
-                            blocked = true;
-                            break;
-                        }
-                    }*/
+
                     if (blocked != true) {
                         // Going up
                         xDistance2 = Math.abs((appleX - x2[0]) / UNIT_SIZE);
