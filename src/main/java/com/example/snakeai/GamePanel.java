@@ -19,7 +19,7 @@ public class GamePanel extends JPanel implements ActionListener  {
     final int HEIGHT;
     static final int UNIT_SIZE = 25;
     final int GAME_UNITS;
-    static final int DELAY = 75;
+    static final int DELAY = 100;
     final int x1[];
     final int y1[];
     final int x2[];
@@ -87,6 +87,12 @@ public class GamePanel extends JPanel implements ActionListener  {
         running = true;
         timer = new Timer(DELAY, this);
         timer.start();
+
+        tenmin = new tenMin(this);
+        tenmin.gameStop();
+        if (!running) {
+            timer.stop();
+        }
     }
 
     public void paintComponent(Graphics g) {
@@ -344,11 +350,8 @@ public class GamePanel extends JPanel implements ActionListener  {
                 System.out.println(how);
             }
         }
-        tenmin = new tenMin(this);
-        tenmin.gameStop();
-        if (!running) {
-            timer.stop();
-        }
+
+
     }
 
     public void gameOver(Graphics g) {
